@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
@@ -91,6 +92,12 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
                   </button>
                 </div>
                 <button onClick={handleAddToCart}>Add to Cart</button>
+                <Link
+                  to="/order-summary"
+                  className="py-2 px-4 bg-transparent border-2 border-orange-700 rounded-lg text-black"
+                >
+                  Buy Now
+                </Link>
               </div>
             </div>
           </div>

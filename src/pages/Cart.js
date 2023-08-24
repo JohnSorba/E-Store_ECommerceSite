@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import CartProduct from "../components/CartProduct";
 
 function Cart({
@@ -6,6 +7,7 @@ function Cart({
   setCartItems,
   removeAll,
   updatedQuantity,
+  product,
 }) {
   // TOGGLE SELECTED CART ITEM
   const toggleItemSelection = (itemId) => {
@@ -66,6 +68,7 @@ function Cart({
                     removeItem={removeItem}
                     updatedQuantity={updatedQuantity}
                     toggleItemSelection={toggleItemSelection}
+                    product={product}
                   />
                 ))}
               </tbody>
@@ -81,7 +84,7 @@ function Cart({
                 <div className="details">
                   <div className="flex detail">
                     <span>Subtotal</span>
-                    <span>{totalSubtotals}</span>
+                    <span>$ {totalSubtotals.toFixed(2)}</span>
                   </div>
 
                   <div className="flex detail">
@@ -94,8 +97,13 @@ function Cart({
                   </div>
                 </div>
 
-                <div className="btn-checkout">
-                  <button onClick={() => removeAll}>Proceed to checkout</button>
+                <div className="btn-checkout ">
+                  <Link
+                    to="/order-summary"
+                    className="border-2 border-orange-700 rounded-lg text-black py-2 px-4"
+                  >
+                    Proceed to checkout
+                  </Link>
                 </div>
               </div>
             </div>

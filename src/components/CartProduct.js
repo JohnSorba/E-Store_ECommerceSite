@@ -1,8 +1,11 @@
+import { Link } from "react-router-dom";
+
 function CartProduct({
   item,
   removeItem,
   updatedQuantity,
   toggleItemSelection,
+  product,
 }) {
   const dec = () => {
     if (item.quantity < 2) return;
@@ -22,9 +25,11 @@ function CartProduct({
           onChange={() => toggleItemSelection(item.id)}
         />
       </td>
-      <td colSpan="2" className="productImg">
-        <img src={item.image} alt={item.title} />
-        <h3>{item.title}</h3>
+      <td>
+        <Link to={`/product/${product.id}`} colSpan="2" className="productImg">
+          <img src={item.image} alt={item.title} />
+          <h3>{item.title}</h3>
+        </Link>
       </td>
       <td>
         <p>$ {item.price}</p>
@@ -37,10 +42,15 @@ function CartProduct({
         </div>
       </td>
       <td>
-        <p>$ {item.subtotal}</p>
+        <p>$ {Number(item.subtotal).toFixed(2)}</p>
       </td>
       <td>
-        <button onClick={() => removeItem(item)}>Delete</button>
+        <button
+          className="bg-transparent border-2 border-orange-700 rounded-lg text-black py-2 px-4"
+          onClick={() => removeItem(item)}
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );

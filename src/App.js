@@ -7,6 +7,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import OrderSummary from "./pages/OrderSummary";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -135,10 +136,12 @@ function App() {
                 removeAll={removeAll}
                 setCartItems={setCartItems}
                 updatedQuantity={updateQuantity}
+                product={products}
               />
             }
           />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/order-summary" element={<OrderSummary />} />
           <Route
             path="/product/:id"
             element={
