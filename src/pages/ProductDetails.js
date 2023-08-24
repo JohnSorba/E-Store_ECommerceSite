@@ -90,14 +90,14 @@ function ProductDetails({ setIsLoading, isLoading, addToCart, product }) {
                     onClick={dec}
                     className="py-1 mr-4 bg-transparent text-black text-xl border-r-2 border-orange-700 rounded-none"
                   >
-                    -
+                    &#8722;
                   </button>
                   <span>{quantity}</span>
                   <button
                     onClick={inc}
                     className="py-1 ml-4 bg-transparent text-black text-xl border-l-2 border-orange-700 rounded-none"
                   >
-                    +
+                    &#43;
                   </button>
                 </div>
               </div>

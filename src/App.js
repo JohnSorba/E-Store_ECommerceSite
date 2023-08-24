@@ -7,7 +7,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Checkout from "./pages/Checkout";
+import ProductCheckout from "./pages/ProductCheckout";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -142,7 +142,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route
             path="/product/:id/checkout/:quantity"
-            element={<Checkout products={products} />}
+            element={<ProductCheckout products={products} />}
           />
           <Route
             path="/product/:id"

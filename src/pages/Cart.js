@@ -103,7 +103,7 @@ function Cart({
                 <div className="btn-checkout ">
                   <Link
                     to="/checkout"
-                    className="border-2 border-orange-700 rounded-lg text-black py-2 px-4"
+                    className="border-2 border-orange-700 rounded-lg text-black py-2 px-4 hover:bg-orange-600 hover:text-white hover:border-none"
                   >
                     Proceed to checkout
                   </Link>

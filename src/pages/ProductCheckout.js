@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function Checkout({ products }) {
+function ProductCheckout({ products }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,7 +30,8 @@ function Checkout({ products }) {
   return (
     <div className="checkout-section">
       <h1>Welcome to the Checkout Page!</h1>
-      <div className="grid grid-cols-2 gap-4 text-left border-2 border-orange-500 rounded-lg px-4 py-4">
+      <Link to="/">&larr; Back to products</Link>
+      <div className="grid grid-cols-2 gap-8 text-left border-2 border-orange-500 rounded-lg px-4 py-4">
         <div>
           <h1 className="text-2xl mb-8">User Information</h1>
           <form className="mb-8">
@@ -104,4 +106,4 @@ function Checkout({ products }) {
   );
 }
 
-export default Checkout;
+export default ProductCheckout;
