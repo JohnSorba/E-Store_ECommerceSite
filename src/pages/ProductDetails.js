@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 
-function ProductDetails({ setIsLoading, isLoading, addToCart }) {
+function ProductDetails({ setIsLoading, isLoading, addToCart, product }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
@@ -22,6 +23,13 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
     if (selectedProduct) {
       addToCart(selectedProduct, quantity);
     }
+  };
+
+  const handleBuyNow = () => {
+    const quantity = 1;
+    const checkoutURL = `/product/${product.id}/checkout/${quantity}`;
+    console.log("Navigating to:", checkoutURL);
+    navigate(checkoutURL);
   };
 
   useEffect(
@@ -51,15 +59,16 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
         <Loader />
       ) : (
         <div className="select-products-section">
-          <div className="grid grid-cols-2 gap-x-16">
+          <p>
+            <Link to="/">&larr; Back to products</Link>
+          </p>
+          <div className="grid grid-cols-2 gap-x-16 mt-16">
             <img src={selectedProduct.image} alt={selectedProduct.title} />
             <div className="selected-info">
-              <h2 className="text-3xl font bold under">
-                {selectedProduct.title}
-              </h2>
+              <h2 className="text-3xl font-bold">{selectedProduct.title}</h2>
               <p>
                 Price:{" "}
-                <span className="text-lg font-bold">
+                <span className="text-xl font-bold">
                   ${selectedProduct.price}
                 </span>
               </p>
@@ -74,27 +83,35 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
                 Rating: ⭐ {selectedProduct.rating?.rate} (
                 {selectedProduct.rating?.count || 0})
               </span>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <span className="mr-3">Qty: </span>
+              <div className="flex items-center justify-end">
+                <span className="mr-3">Qty: </span>
+                <div className="border-2 border-orange-700 rounded-lg">
                   <button
                     onClick={dec}
-                    className="py-0 px-2 mr-2 bg-transparent text-black font-bold text-2xl border border-orange-700 rounded-lg"
+                    className="py-1 mr-4 bg-transparent text-black text-xl border-r-2 border-orange-700 rounded-none"
                   >
                     -
                   </button>
                   <span>{quantity}</span>
                   <button
                     onClick={inc}
-                    className="py-0 px-2 ml-2 bg-transparent text-black font-bold text-2xl border border-orange-700 rounded-lg"
+                    className="py-1 ml-4 bg-transparent text-black text-xl border-l-2 border-orange-700 rounded-none"
                   >
                     +
                   </button>
                 </div>
+              </div>
+              <div className="flex justify-end items-center gap-4">
                 <button onClick={handleAddToCart}>Add to Cart</button>
+                <button className="bg-transparent  border-2 border-orange-600 rounded-lg text-black">
+                  🧡
+                </button>
                 <Link
-                  to="/order-summary"
-                  className="py-2 px-4 bg-transparent border-2 border-orange-700 rounded-lg text-black"
+                  // to={`/product/${id}/checkout?quantity=${quantity}`}
+                  to={`/product/${id}/checkout/${quantity}`}
+                  // to={`/product/${id}/checkout`}
+                  // onClick={handleBuyNow}
+                  className="py-2 px-4 w-28 bg-transparent border-2 border-orange-700 rounded-lg text-black text-center"
                 >
                   Buy Now
                 </Link>

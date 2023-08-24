@@ -7,7 +7,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import OrderSummary from "./pages/OrderSummary";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -16,7 +16,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
 
-  console.log(cartItems);
+  // console.log(cartItems);
 
   // UPDATE ITEM QUANTITY
   const updateQuantity = (itemId, newQuantity) => {
@@ -96,7 +96,6 @@ function App() {
         const res = await fetch("https://fakestoreapi.com/products");
         const data = await res.json();
         setProducts(data);
-        console.log(data);
       } catch (error) {
         console.error("There was an issue fetching the data");
       } finally {
@@ -141,18 +140,20 @@ function App() {
             }
           />
           <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/order-summary" element={<OrderSummary />} />
+          <Route
+            path="/product/:id/checkout/:quantity"
+            element={<Checkout products={products} />}
+          />
           <Route
             path="/product/:id"
             element={
-              //
               <ProductDetails
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
                 addToCart={addToCart}
               />
             }
-          />
+          ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

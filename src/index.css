@@ -73,13 +73,6 @@ a {
   width: 100%;
 }
 
-input {
-  padding: 1rem 1rem;
-  width: 60%;
-  display: block;
-  margin: 0 auto;
-}
-
 #products-section {
   padding: 3% 10%;
   text-align: center;
@@ -170,12 +163,6 @@ button {
 .cart {
   text-align: center;
   margin-bottom: 4rem;
-}
-
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 table {
@@ -291,6 +278,11 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.checkout-section {
+  padding: 3% 10%;
+  text-align: center;
 }
 
 #footer {

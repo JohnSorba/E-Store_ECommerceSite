@@ -47,6 +47,9 @@ function Cart({
             <p className="text-xl">{cartItems.length} items added to Cart!</p>
           )}
         </div>
+        <p>
+          <Link to="/">&larr; Back to products</Link>
+        </p>
         {cartItems.length > 0 ? (
           <>
             <table className="cart-table">
@@ -80,18 +83,18 @@ function Cart({
               </div>
               <div></div>
               <div className="cart-total">
-                <h3>Cart Total</h3>
+                <h3 className="text-xl">Cart Total</h3>
                 <div className="details">
-                  <div className="flex detail">
+                  <div className="flex justify-between detail">
                     <span>Subtotal</span>
                     <span>$ {totalSubtotals.toFixed(2)}</span>
                   </div>
 
-                  <div className="flex detail">
+                  <div className="flex justify-between detail">
                     <span>Shipping Fee</span>
                     <span>{shippingFee > 0 ? shippingFee : "Free"}</span>
                   </div>
-                  <div className="flex detail total">
+                  <div className="flex justify-between detail total">
                     <span>Total Amount</span>
                     <span>$ {grandTotal}</span>
                   </div>
@@ -99,7 +102,7 @@ function Cart({
 
                 <div className="btn-checkout ">
                   <Link
-                    to="/order-summary"
+                    to="/checkout"
                     className="border-2 border-orange-700 rounded-lg text-black py-2 px-4"
                   >
                     Proceed to checkout
@@ -111,13 +114,13 @@ function Cart({
         ) : (
           <h1>🛒 Your EStore Cart is empty</h1>
         )}
-        <div>
-          <p>
+        <div className="flex justify-center">
+          <p className="text-center w-8/12">
             The price and availability of items at EStore.com are subject to
             change. The Cart is a temporary place to store a list of your items
-            and reflects each item's most recent price. <br />
-            Do you have a gift card or promotional code? We'll ask you to enter
-            your claim code when it's time to pay.
+            and reflects each item's most recent price. Do you have a gift card
+            or promotional code? We'll ask you to enter your claim code when
+            it's time to pay.
           </p>
         </div>
       </>
