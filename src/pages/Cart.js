@@ -32,6 +32,16 @@ function Cart({
   };
   const totalSubtotals = Number(calculateSelectedSubtotals().toFixed(2));
 
+  const calculateSelectedQuanity = () => {
+    const selectedItems = cartItems.filter((item) => item.isChecked);
+    const selectedQuantity = selectedItems.reduce(
+      (total, item) => total + Number(item.quantity),
+      0
+    );
+    return selectedQuantity;
+  };
+  const totalQuantity = Number(calculateSelectedQuanity().toFixed(2));
+
   // GRAND TOTAL
   const shippingFee = 10;
   const grandTotal = Number(totalSubtotals + shippingFee).toFixed(2);
@@ -81,7 +91,16 @@ function Cart({
                 <input type="text" placeholder="Enter Coupon Code" />
                 <button>Apply Coupon</button>
               </div>
-              <div></div>
+              <div>
+                {/* DISPLAY QUANTITY SELECTED */}
+                <div className="flex justify-center text-center text-lg">
+                  {totalQuantity > 0 ? (
+                    <span>{totalQuantity} Items Selected</span>
+                  ) : (
+                    <p>No Items selected</p>
+                  )}
+                </div>
+              </div>
               <div className="cart-total">
                 <h3 className="text-xl">Cart Total</h3>
                 <div className="details">
@@ -102,8 +121,8 @@ function Cart({
 
                 <div className="btn-checkout ">
                   <Link
-                    to="/checkout"
-                    className="border-2 border-orange-700 rounded-lg text-black py-2 px-4 hover:bg-orange-600 hover:text-white hover:border-none"
+                    to="/cart/checkout"
+                    className="outline outline-orange-300 rounded-lg text-black py-2 px-4 hover:bg-orange-600 hover:text-white hover:border-none"
                   >
                     Proceed to checkout
                   </Link>

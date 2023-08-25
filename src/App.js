@@ -8,6 +8,7 @@ import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProductCheckout from "./pages/ProductCheckout";
+import CartCheckout from "./pages/CartCheckout";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -63,7 +64,7 @@ function App() {
       const updatedCart = [...cartItems, newItem];
       setCartItems(updatedCart);
     }
-
+    alert(`${quantity} ${item.title} added to cart`);
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
 
@@ -139,6 +140,7 @@ function App() {
               />
             }
           />
+          <Route path="/cart/checkout" element={<CartCheckout />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route
             path="/product/:id/checkout/:quantity"
