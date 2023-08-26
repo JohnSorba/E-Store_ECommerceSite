@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
@@ -9,6 +9,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProductCheckout from "./pages/ProductCheckout";
 import CartCheckout from "./pages/CartCheckout";
+import OrderConfirm from "./pages/OrderConfirm";
+import ProductOrderConfirm from "./pages/ProductOrderConfirm";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -16,6 +18,9 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
+  const [orderDetails, setOrderDetails] = useState(null);
+
+  console.log("app orderDetails (onClick): ", orderDetails);
 
   // console.log(cartItems);
 
@@ -68,6 +73,24 @@ function App() {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
 
+  const selectedProductItems = () => {
+    const selectedItems = cartItems.filter((item) => item.isChecked);
+    return selectedItems;
+  };
+  const selectedItems = selectedProductItems();
+  // console.log("selected items: ", selectedItems);
+
+  // TOTAL-SUBTOTAL
+  const calculateSelectedSubtotals = () => {
+    const selectedItems = cartItems.filter((item) => item.isChecked);
+    const selectedSubtotal = selectedItems.reduce(
+      (total, item) => total + Number(item.subtotal),
+      0
+    );
+    return selectedSubtotal;
+  };
+  const totalSubtotals = calculateSelectedSubtotals();
+
   // REMOVE FROM CART
   const removeCartItem = (product) => {
     const updatedCart = cartItems.filter((item) => item.id !== product.id);
@@ -87,6 +110,14 @@ function App() {
     const storedCartItems = localStorage.getItem("cart");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    // RETRIEVE orderDetails from local storage
+    const storedOrderDetails = localStorage.getItem("orderDetails");
+    if (storedOrderDetails) {
+      setOrderDetails(JSON.parse(storedOrderDetails));
     }
   }, []);
 
@@ -140,11 +171,46 @@ function App() {
               />
             }
           />
-          <Route path="/cart/checkout" element={<CartCheckout />} />
+          <Route
+            path="/checkout"
+            element={
+              <CartCheckout
+                cartItems={cartItems}
+                orderDetails={orderDetails}
+                setOrderDetails={setOrderDetails}
+                selectedItems={selectedItems}
+                totalSubtotals={totalSubtotals}
+              />
+            }
+          />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route
             path="/product/:id/checkout/:quantity"
-            element={<ProductCheckout products={products} />}
+            element={
+              <ProductCheckout
+                orderDetails={orderDetails}
+                setOrderDetails={setOrderDetails}
+              />
+            }
+          />
+          <Route
+            path="/orderConfirm"
+            element={
+              <OrderConfirm
+                orderDetails={orderDetails}
+                selectedItems={selectedItems}
+                totalSubtotals={totalSubtotals}
+              />
+            }
+          />
+          <Route
+            path="/order-confirm/:id/:quantity"
+            element={
+              <ProductOrderConfirm
+                orderDetails={orderDetails}
+                totalSubtotals={totalSubtotals}
+              />
+            }
           />
           <Route
             path="/product/:id"

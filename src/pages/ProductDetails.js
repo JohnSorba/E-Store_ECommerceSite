@@ -4,9 +4,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 
-function ProductDetails({ setIsLoading, isLoading, addToCart, product }) {
+function ProductDetails({ setIsLoading, isLoading, addToCart }) {
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
@@ -25,12 +25,12 @@ function ProductDetails({ setIsLoading, isLoading, addToCart, product }) {
     }
   };
 
-  const handleBuyNow = () => {
-    const quantity = 1;
-    const checkoutURL = `/product/${product.id}/checkout/${quantity}`;
-    console.log("Navigating to:", checkoutURL);
-    navigate(checkoutURL);
-  };
+  // const handleBuyNow = () => {
+  //   const quantity = 1;
+  //   const checkoutURL = `/product/${product.id}/checkout/${quantity}`;
+  //   console.log("Navigating to:", checkoutURL);
+  //   navigate(checkoutURL);
+  // };
 
   useEffect(
     function () {

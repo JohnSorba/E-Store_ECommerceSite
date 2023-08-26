@@ -20,6 +20,10 @@
   padding: 0;
 }
 
+body {
+  position: relative;
+}
+
 ul {
   list-style-type: none;
 }
@@ -273,15 +277,14 @@ table {
   font-size: 18px;
 }
 
-.btn-checkout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .checkout-section {
   padding: 3% 10%;
   text-align: center;
+}
+
+.orderConfirm-section {
+  padding: 3% 10%;
+  text-align: left;
 }
 
 #footer {

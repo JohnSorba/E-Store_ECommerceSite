@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar({ cartItemCount }) {
   return (
-    <nav className="navbar">
+    <nav className="navbar ">
       <Link to="/">E-STORE</Link>
       <ul className="nav">
         <li>

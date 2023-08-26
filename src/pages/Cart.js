@@ -9,6 +9,10 @@ function Cart({
   updatedQuantity,
   product,
 }) {
+  // PROCEED TO CHECKOUT
+  function handleCheckOut() {
+    console.log("In Checkout");
+  }
   // TOGGLE SELECTED CART ITEM
   const toggleItemSelection = (itemId) => {
     const updatedItems = cartItems.map((item) => {
@@ -32,6 +36,7 @@ function Cart({
   };
   const totalSubtotals = Number(calculateSelectedSubtotals().toFixed(2));
 
+  // TOTAL SELECTED ITEMS
   const calculateSelectedQuanity = () => {
     const selectedItems = cartItems.filter((item) => item.isChecked);
     const selectedQuantity = selectedItems.reduce(
@@ -105,7 +110,15 @@ function Cart({
                 <h3 className="text-xl">Cart Total</h3>
                 <div className="details">
                   <div className="flex justify-between detail">
-                    <span>Subtotal</span>
+                    <span>
+                      Subtotal (
+                      {totalQuantity > 0 ? (
+                        <span>{totalQuantity} Items</span>
+                      ) : (
+                        <p>No Items</p>
+                      )}
+                      )
+                    </span>
                     <span>$ {totalSubtotals.toFixed(2)}</span>
                   </div>
 
@@ -119,10 +132,11 @@ function Cart({
                   </div>
                 </div>
 
-                <div className="btn-checkout ">
+                <div className="flex justify-center items-center">
                   <Link
-                    to="/cart/checkout"
+                    to="/checkout"
                     className="outline outline-orange-300 rounded-lg text-black py-2 px-4 hover:bg-orange-600 hover:text-white hover:border-none"
+                    onClick={handleCheckOut}
                   >
                     Proceed to checkout
                   </Link>
@@ -131,10 +145,12 @@ function Cart({
             </div>
           </>
         ) : (
-          <h1>🛒 Your EStore Cart is empty</h1>
+          <h1 className="text-3xl text-center mb-16">
+            🛒 Your EStore Cart is empty
+          </h1>
         )}
         <div className="flex justify-center">
-          <p className="text-center w-8/12">
+          <p className="text-center w-8/12 text-gray-500">
             The price and availability of items at EStore.com are subject to
             change. The Cart is a temporary place to store a list of your items
             and reflects each item's most recent price. Do you have a gift card
