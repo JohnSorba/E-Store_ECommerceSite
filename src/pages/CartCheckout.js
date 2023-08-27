@@ -49,7 +49,7 @@ function CartCheckout({
       </div>
 
       <div className="grid grid-cols-8  text-left border-2 border-orange-500 rounded-lg px-4 py-4">
-        {orderPlaced ? (
+        {orderPlaced === true ? (
           <div className="col-span-8 text-center py-32">
             <h1 className="text-5xl mb-16">
               Your order has been placed!

@@ -1,6 +1,6 @@
 function SearchBar({ searchQuery, setSearchQuery }) {
   return (
-    <div className="mt-4 border-b border-gray-200 py-4 px-4 w-3/5 my-0 mx-auto block text-lg">
+    <div className="mt-16 px-4 w-3/5 my-0 mx-auto block text-lg rounded-full bg-slate-50">
       <div className="flex gap-4 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
           />
         </svg>
         <input
-          className="w-full focus:outline-none"
+          className="w-full focus:outline-none py-4 bg-slate-50"
           type="text"
           placeholder="Search Products..."
           value={searchQuery}

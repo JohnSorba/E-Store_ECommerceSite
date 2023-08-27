@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
@@ -11,6 +11,9 @@ import ProductCheckout from "./pages/ProductCheckout";
 import CartCheckout from "./pages/CartCheckout";
 import OrderConfirm from "./pages/OrderConfirm";
 import ProductOrderConfirm from "./pages/ProductOrderConfirm";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -19,10 +22,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
   const [orderDetails, setOrderDetails] = useState(null);
-
-  console.log("app orderDetails (onClick): ", orderDetails);
-
-  // console.log(cartItems);
 
   // UPDATE ITEM QUANTITY
   const updateQuantity = (itemId, newQuantity) => {
@@ -78,7 +77,6 @@ function App() {
     return selectedItems;
   };
   const selectedItems = selectedProductItems();
-  // console.log("selected items: ", selectedItems);
 
   // TOTAL-SUBTOTAL
   const calculateSelectedSubtotals = () => {
@@ -138,24 +136,24 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="mt-12">
       <BrowserRouter>
         <Navbar cartItemCount={cartItems.length} />
 
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/register" element={<Register />} />
           <Route
             path="/"
             element={
-              isLoading ? (
-                <Loader />
-              ) : (
-                <HomePage
-                  products={products}
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  onProductClick={handleProductClick}
-                />
-              )
+              <HomePage
+                products={products}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onProductClick={handleProductClick}
+                loading={isLoading}
+              />
             }
           />
           <Route

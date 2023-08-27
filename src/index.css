@@ -31,26 +31,6 @@ a {
   text-decoration: none;
 }
 
-.app {
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
-
-.header {
-  text-align: center;
-  /* height: 40vh; */
-  background-color: var(--main-color);
-}
-
-.navbar {
-  display: flex;
-  justify-content: flex-end;
-  background-color: var(--main-color);
-  width: 100%;
-  padding: 1rem 15%;
-  font-size: 1.3em;
-}
-
 .nav {
   display: flex;
   justify-content: space-between;
@@ -59,16 +39,13 @@ a {
 }
 
 .nav li {
-  color: brown;
+  color: rgb(0, 0, 0);
   margin-left: 2rem;
 }
 
 .hero {
-  display: grid;
-  /* place-items: center; */
-  justify-content: center;
-  align-items: center;
   height: 30vh;
+  background: url(/public/ecommere_hero.png);
 }
 
 .search {
@@ -80,58 +57,6 @@ a {
 #products-section {
   padding: 3% 10%;
   text-align: center;
-}
-
-#products-section h2 {
-  margin-bottom: 2rem;
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto;
-  justify-items: center;
-  /* justify-content: flex-start; */
-  gap: 3rem 2rem;
-  text-align: left;
-}
-
-.product {
-  display: flex;
-  flex-direction: column;
-  padding: 1.25rem;
-  width: 250px;
-  height: 350px;
-  box-shadow: 0px 0px 5px var(--main-color);
-  cursor: pointer;
-}
-
-.product-details {
-  margin-top: auto;
-}
-
-.product img {
-  max-width: 100%;
-  max-height: 60%;
-  margin-bottom: 2rem;
-  /* border: 1px solid #ccc; */
-}
-
-.product h2 {
-  font-size: 1rem;
-  margin: 0;
-}
-
-.product p {
-  font-size: 1rem;
-  /* margin: 5px 0; */
-}
-
-.price-rating {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 5px 0;
 }
 
 .select-products-section {
@@ -150,7 +75,6 @@ a {
 }
 
 button {
-  width: auto;
   padding: 0.5rem 1rem;
   color: var(--main-color-2);
   font-weight: bold;

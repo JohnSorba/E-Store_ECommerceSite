@@ -60,7 +60,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
       </div>
 
       <div className="grid grid-cols-2 text-left border-2 border-orange-500 rounded-lg px-4 py-4">
-        {orderPlaced ? (
+        {orderPlaced === true ? (
           <div className="col-span-8 text-center py-32">
             <h1 className="text-5xl mb-16">
               Your order has been placed!
@@ -77,7 +77,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
             <p>
               Go the the{" "}
               <Link
-                to="/order-confirm/:id/:quantity"
+                to={`/order-confirm/${id}/${quantity}`}
                 className="text-orange-400 hover:underline"
               >
                 Order Confirmation

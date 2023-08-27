@@ -201,7 +201,10 @@ function PaymentForm({ onPlaceOrder, selectedItems, selectedProduct }) {
         )}
         {paymentOption === "other" && <div>Use Other</div>}
       </div>{" "}
-      <button onClick={handleSubmit} className="mt-8">
+      <button
+        onClick={handleSubmit}
+        className="mt-8 hover:bg-transparent hover:text-black hover:outline hover:outline-orange-600 "
+      >
         {selectedProduct ? (
           <Link to={`/order-confirm/${id}/${quantity}`}>Place Order</Link>
         ) : (

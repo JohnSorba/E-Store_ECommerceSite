@@ -85,17 +85,17 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
               </span>
               <div className="flex items-center justify-end">
                 <span className="mr-3">Qty: </span>
-                <div className="border-2 border-orange-700 rounded-lg">
+                <div className="border-2 border-slate-500 rounded-lg">
                   <button
                     onClick={dec}
-                    className="py-1 mr-4 bg-transparent text-black text-xl border-r-2 border-orange-700 rounded-none"
+                    className="py-1 mr-4 bg-transparent text-black text-xl border-r-2 border-slate-500 rounded-none"
                   >
                     &#8722;
                   </button>
                   <span>{quantity}</span>
                   <button
                     onClick={inc}
-                    className="py-1 ml-4 bg-transparent text-black text-xl border-l-2 border-orange-700 rounded-none"
+                    className="py-1 ml-4 bg-transparent text-black text-xl border-l-2 border-slate-500 rounded-none"
                   >
                     &#43;
                   </button>
@@ -103,7 +103,7 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
               </div>
               <div className="flex justify-end items-center gap-4">
                 <button onClick={handleAddToCart}>Add to Cart</button>
-                <button className="bg-transparent  border-2 border-orange-600 rounded-lg text-black">
+                <button className="bg-transparent  border-2 border-slate-500 rounded-lg text-black hover:text-slate-500">
                   🧡
                 </button>
                 <Link
@@ -111,7 +111,7 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
                   to={`/product/${id}/checkout/${quantity}`}
                   // to={`/product/${id}/checkout`}
                   // onClick={handleBuyNow}
-                  className="py-2 px-4 w-28 bg-transparent border-2 border-orange-700 rounded-lg text-black text-center"
+                  className="py-2 px-4 w-28 bg-transparent border-2 border-slate-500 hover:bg-slate-500 hover:text-white rounded-lg text-black text-center"
                 >
                   Buy Now
                 </Link>

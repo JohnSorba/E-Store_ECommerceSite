@@ -9,10 +9,6 @@ function Cart({
   updatedQuantity,
   product,
 }) {
-  // PROCEED TO CHECKOUT
-  function handleCheckOut() {
-    console.log("In Checkout");
-  }
   // TOGGLE SELECTED CART ITEM
   const toggleItemSelection = (itemId) => {
     const updatedItems = cartItems.map((item) => {
@@ -59,7 +55,14 @@ function Cart({
           {cartItems.length < 1 ? (
             <p className="text-xl ">Make sure you add items soon! 😉</p>
           ) : (
-            <p className="text-xl">{cartItems.length} items added to Cart!</p>
+            <>
+              <p className="text-xl">
+                [{cartItems.length}] unique items added to Cart!
+              </p>
+              <p className="text-xl">
+                [{totalQuantity}] items selected for Checkout!
+              </p>
+            </>
           )}
         </div>
         <p>
@@ -100,7 +103,7 @@ function Cart({
                 {/* DISPLAY QUANTITY SELECTED */}
                 <div className="flex justify-center text-center text-lg">
                   {totalQuantity > 0 ? (
-                    <span>{totalQuantity} Items Selected</span>
+                    <p>{totalQuantity} Items Selected</p>
                   ) : (
                     <p>No Items selected</p>
                   )}
@@ -115,7 +118,7 @@ function Cart({
                       {totalQuantity > 0 ? (
                         <span>{totalQuantity} Items</span>
                       ) : (
-                        <p>No Items</p>
+                        <span>0 Items</span>
                       )}
                       )
                     </span>
@@ -132,15 +135,16 @@ function Cart({
                   </div>
                 </div>
 
-                <div className="flex justify-center items-center">
-                  <Link
-                    to="/checkout"
-                    className="outline outline-orange-300 rounded-lg text-black py-2 px-4 hover:bg-orange-600 hover:text-white hover:border-none"
-                    onClick={handleCheckOut}
-                  >
-                    Proceed to checkout
-                  </Link>
-                </div>
+                {totalQuantity > 0 && (
+                  <div className="flex justify-center items-center">
+                    <Link
+                      to="/checkout"
+                      className="outline outline-slate-300 rounded-lg text-black py-2 px-4 hover:bg-slate-600 hover:text-white hover:border-none"
+                    >
+                      Proceed to checkout
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </>

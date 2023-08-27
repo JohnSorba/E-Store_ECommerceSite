@@ -36,9 +36,13 @@ function CartProduct({
       </td>
       <td>
         <div className="quantity">
-          <button onClick={dec}>&#8722;</button>
+          <button onClick={dec} className="bg-slate-500">
+            &#8722;
+          </button>
           <span>{item.quantity}</span>
-          <button onClick={inc}>&#43;</button>
+          <button onClick={inc} className="bg-slate-500">
+            &#43;
+          </button>
         </div>
       </td>
       <td>
@@ -46,7 +50,7 @@ function CartProduct({
       </td>
       <td>
         <button
-          className="bg-transparent rounded-lg text-black text-4xl py-0 px-1 hover:text-orange-600"
+          className="bg-transparent rounded-lg text-black text-4xl py-0 px-1 hover:text-slate-500"
           onClick={() => removeItem(item)}
         >
           &times;

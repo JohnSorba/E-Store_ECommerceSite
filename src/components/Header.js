@@ -2,8 +2,8 @@ import React from "react";
 
 function Header() {
   return (
-    <div className="header">
-      <div className="hero">
+    <div className="text-center mb-8">
+      <div className="hero grid place-items-center ">
         <div className="hero-details">
           <h1 className="text-5xl font-bold mb-2">
             Welcome to E-Store Website
