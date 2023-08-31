@@ -1,15 +1,22 @@
 import { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { useAuth } from "../components/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ref, set } from "firebase/database";
 
-function Register() {
+function Register({ db, storeUserData }) {
   const { currentUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const auth = getAuth();
+
+  console.log("db in Register: ", db);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -24,6 +31,15 @@ function Register() {
       const user = userCredential.user;
       console.log("Registered User: ", user);
 
+      const userData = {
+        displayName: user.displayName,
+        email: user.email,
+      };
+
+      storeUserData(user.uid, userData);
+      console.log("stored data: ", storeUserData);
+
+      localStorage.setItem("user", userData);
       navigate("/login");
     } catch (error) {
       setError(error.message);
@@ -37,9 +53,7 @@ function Register() {
         Hi!
       </div>
       {error && <p>{error}</p>}
-      {currentUser ? (
-        <p>You are already logged in as {currentUser.email}</p>
-      ) : (
+      {!currentUser ? (
         <div className="w-2/5">
           <h1 className="mb-8 text-2xl">Sign Up</h1>
           <form
@@ -76,6 +90,8 @@ function Register() {
             </div>
           </form>
         </div>
+      ) : (
+        <p>You are already logged in as {currentUser.email}</p>
       )}
     </div>
   );

@@ -1,11 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-const AuthContext = createContext();
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const AuthContext = createContext();
 
 // The child is the APP component
 export function AuthProvider({ children }) {
@@ -41,8 +37,34 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      {!loading && children}
-    </AuthContext.Provider>
+    <>
+      <AuthContext.Provider value={contextValue}>
+        {!loading && children}
+      </AuthContext.Provider>
+    </>
   );
+}
+
+// useAuth Custom Hook
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+// HANDLE USER CONTEXT
+export const UserContext = createContext();
+
+// UseContext Provider
+export function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
+
+// useUser Custom Hook
+export function useUser() {
+  return useContext(UserContext);
 }

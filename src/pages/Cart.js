@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useUser } from "../components/AuthContext";
 import CartProduct from "../components/CartProduct";
 
 function Cart({
@@ -8,6 +9,7 @@ function Cart({
   removeAll,
   updatedQuantity,
   product,
+  onProductClick,
 }) {
   // TOGGLE SELECTED CART ITEM
   const toggleItemSelection = (itemId) => {
@@ -90,6 +92,7 @@ function Cart({
                     updatedQuantity={updatedQuantity}
                     toggleItemSelection={toggleItemSelection}
                     product={product}
+                    onProductClick={onProductClick}
                   />
                 ))}
               </tbody>

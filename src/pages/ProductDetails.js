@@ -6,7 +6,7 @@ import Header from "../components/Header";
 
 function ProductDetails({ setIsLoading, isLoading, addToCart }) {
   const { id } = useParams();
-  // const navigate = useNavigate();
+
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
 
@@ -24,13 +24,6 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
       addToCart(selectedProduct, quantity);
     }
   };
-
-  // const handleBuyNow = () => {
-  //   const quantity = 1;
-  //   const checkoutURL = `/product/${product.id}/checkout/${quantity}`;
-  //   console.log("Navigating to:", checkoutURL);
-  //   navigate(checkoutURL);
-  // };
 
   useEffect(
     function () {

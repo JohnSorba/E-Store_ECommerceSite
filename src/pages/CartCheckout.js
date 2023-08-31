@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PaymentForm from "../components/PaymentForm";
 import CartOrderSummary from "../components/CartOrderSummary";
 import { useState } from "react";
+import { useUser } from "../components/AuthContext";
 
 function CartCheckout({
   cartItems,

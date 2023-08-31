@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "../components/AuthContext";
-import "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useAuth, useUser } from "../components/AuthContext";
+import "firebase/auth";
 
-function Login() {
+function Login({ getCartData }) {
   const { currentUser } = useAuth();
+  const { user, setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const userUid = currentUser?.uid;
 
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -22,9 +25,14 @@ function Login() {
       );
 
       const user = userCredential.user;
-      console.log("Logged In User: ", user);
+      setUser(user);
+      // await getCartData(userUid);
 
-      navigate("/");
+      console.log("Logged In User: ", user);
+      navigate(
+        `/profile/${user?.displayName !== null ? user?.displayName : user?.uid}`
+      );
+      //
     } catch (error) {
       console.error("Login error", error.message);
     }
@@ -36,7 +44,7 @@ function Login() {
         Hi!
       </div>
       {currentUser ? (
-        <p>You are currently logged in as {currentUser.email}</p>
+        <p>You are already signed in as, {user?.email}</p>
       ) : (
         <div className="">
           <h1 className="mb-8 text-2xl">Log In</h1>

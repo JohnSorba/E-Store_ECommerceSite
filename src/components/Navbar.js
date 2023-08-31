@@ -1,15 +1,36 @@
 import { NavLink } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth, useUser } from "./AuthContext";
+import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useFirebase } from "./FirebaseContext";
 
-function Navbar({ cartItemCount }) {
+function Navbar({ cartItemCount, db }) {
   const { currentUser, logout } = useAuth();
+  // const { db } = useFirebase;
+  const navigate = useNavigate();
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (user !== null) {
+    console.log("user is signed in");
+  } else {
+    console.log("User is signed out");
+  }
+  const handleLogout = () => {
+    logout(); // Clear user data
+    navigate("/"); // Redirect to the home page
+  };
 
   return (
-    <nav className="flex items-center justify-between px-40 py-2 bg-white fixed top-0 left-0 right-0">
-      <NavLink to="/">E-STORE</NavLink>
+    <nav className="flex items-center justify-between px-40 py-2 bg-white fixed top-0 left-0 right-0 shadow-sm">
+      <NavLink to="/" className="text-xl font-bold font-serif">
+        E-STORE
+      </NavLink>
       <ul className="nav">
         <li>
-          <a href="#products-section">Products</a>
+          <NavLink to="/#products-section">Products</NavLink>
         </li>
         {currentUser ? (
           <>
@@ -29,7 +50,7 @@ function Navbar({ cartItemCount }) {
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
-                ({cartItemCount})
+                {cartItemCount !== 0 ? cartItemCount : 0}
               </NavLink>
             </li>
             <li>
@@ -51,8 +72,15 @@ function Navbar({ cartItemCount }) {
                 (2)
               </NavLink>
             </li>
+
+            {/*AUTHENTICATION*/}
             <li>
-              <NavLink to="/profile">
+              <NavLink
+                to={`/profile/${
+                  user?.displayName !== null ? user?.displayName : user?.uid
+                }`}
+                className="flex items-center"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -67,11 +95,12 @@ function Navbar({ cartItemCount }) {
                     d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                   />
                 </svg>
+                {user?.displayName !== null ? user?.displayName : user?.email}
               </NavLink>
             </li>
             <li>
               {" "}
-              <button onClick={logout} className="py-1 bg-slate-600">
+              <button onClick={handleLogout} className="py-1 bg-slate-600">
                 Sign Out
               </button>
             </li>

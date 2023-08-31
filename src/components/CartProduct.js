@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import ProductItem from "./ProductItem";
 
 function CartProduct({
   item,
@@ -6,7 +7,9 @@ function CartProduct({
   updatedQuantity,
   toggleItemSelection,
   product,
+  onProductClick,
 }) {
+  const { id } = useParams();
   const dec = () => {
     if (item.quantity < 2) return;
     updatedQuantity(item.id, item.quantity - 1);
@@ -26,7 +29,7 @@ function CartProduct({
         />
       </td>
       <td>
-        <Link to={`/product/${product.id}`} colSpan="2" className="productImg">
+        <Link to={`/product/${item.id}`} colSpan="2" className="productImg">
           <img src={item.image} alt={item.title} />
           <h3>{item.title}</h3>
         </Link>
