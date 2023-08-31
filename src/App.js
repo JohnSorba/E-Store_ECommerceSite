@@ -67,6 +67,8 @@ function App() {
       return item;
     });
     setCartItems(updatedItems);
+
+    updateCartData(userUid, updatedItems);
     localStorage.setItem("cart", JSON.stringify(updatedItems));
   };
 
@@ -85,10 +87,16 @@ function App() {
     set(userRef, userData);
   };
 
-  // STORE IN FIREBASE
+  // STORE CART DATA IN FIREBASE
   const updateCartData = (userId, cartData) => {
     const cartRef = ref(db, `carts/${userId}`);
     set(cartRef, cartData);
+  };
+
+  // STORE ORDER DATA IN FIREBASE
+  const updateOrderData = (userId, orderData, orderId) => {
+    const orderRef = ref(db, `orders/${userId}/${orderId}`);
+    set(orderRef, orderData);
   };
 
   // ADD TO CART
@@ -150,6 +158,8 @@ function App() {
   const removeCartItem = (product) => {
     const updatedCart = cartItems.filter((item) => item.id !== product.id);
     setCartItems(updatedCart);
+
+    updateCartData(userUid, updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
@@ -221,6 +231,7 @@ function App() {
                 setSearchQuery={setSearchQuery}
                 onProductClick={handleProductClick}
                 loading={isLoading}
+                cartItems={cartItems}
               />
             }
           />
@@ -235,6 +246,7 @@ function App() {
                 updatedQuantity={updateQuantity}
                 product={products}
                 onProductClick={handleProductClick}
+                updateCartData={updateCartData}
               />
             }
           />
@@ -247,6 +259,9 @@ function App() {
                 setOrderDetails={setOrderDetails}
                 selectedItems={selectedItems}
                 totalSubtotals={totalSubtotals}
+                updateCartData={updateCartData}
+                updateOrderData={updateOrderData}
+                setCartItems={setCartItems}
               />
             }
           />

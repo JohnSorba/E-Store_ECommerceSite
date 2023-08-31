@@ -9,6 +9,7 @@ function HomePage({
   setSearchQuery,
   onProductClick,
   loading,
+  cartItems,
 }) {
   return (
     <div>
@@ -23,6 +24,7 @@ function HomePage({
           searchQuery={searchQuery}
           onProductClick={onProductClick}
           loading={loading}
+          cartItems={cartItems}
         />
       ) : (
         <p>Products Not Found! ❌</p>

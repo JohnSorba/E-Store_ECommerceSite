@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-function PaymentForm({ onPlaceOrder, selectedItems, selectedProduct }) {
+function PaymentForm({
+  onPlaceOrder,
+  selectedItems,
+  selectedProduct,
+  totalSubtotals,
+  grandTotal,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -13,16 +19,34 @@ function PaymentForm({ onPlaceOrder, selectedItems, selectedProduct }) {
   const [paymentOption, setPaymentOption] = useState("credit");
   const { id, quantity } = useParams();
 
+  const date = Date.now();
+  const newDate = new Date(date);
+  const currentDate = newDate.toLocaleDateString();
+  const currentTime = newDate.toLocaleTimeString();
+  const currentDateTime = `${currentDate}-${currentTime}`;
+
+  // generate random number
+  function generateOrderId() {
+    const timestamp = new Date().getTime(); // Get current timestamp
+    const randomString = Math.random().toString(36).substring(2, 10); // Generate random alphanumeric string
+    return `${timestamp}-${randomString}`;
+  }
+  const orderId = generateOrderId();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const orderDetails = {
+      orderId: orderId,
       name,
       email,
       phone,
       address,
       paymentOption,
       items: selectedItems ? selectedItems : selectedProduct,
+      subtotal: totalSubtotals,
+      total: grandTotal.toFixed(2),
+      orderDate: currentDateTime,
     };
 
     onPlaceOrder(orderDetails);

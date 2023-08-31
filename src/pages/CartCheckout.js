@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import PaymentForm from "../components/PaymentForm";
 import CartOrderSummary from "../components/CartOrderSummary";
 import { useState } from "react";
-import { useUser } from "../components/AuthContext";
+import { useAuth, useUser } from "../components/AuthContext";
 
 function CartCheckout({
   cartItems,
@@ -10,8 +10,24 @@ function CartCheckout({
   setOrderDetails,
   totalSubtotals,
   selectedItems,
+  updateOrderData,
+  updateCartData,
+  setCartItems,
 }) {
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const { currentUser } = useAuth();
+  const userUid = currentUser.uid;
+
+  console.log(totalSubtotals);
+
+  const clearCart = () => {
+    const updatedCart = cartItems.filter((item) => !item.isChecked);
+    // Clear the cart Items
+    setCartItems(updatedCart);
+
+    // Update cart data in Firebase
+    updateCartData(userUid, updatedCart);
+  };
 
   const handlePlaceOrder = (orderDetails) => {
     console.log("selected items in Form: ", orderDetails.items);
@@ -20,6 +36,9 @@ function CartCheckout({
     console.log("Form submitted");
     setOrderPlaced(true);
     setOrderDetails(orderDetails);
+    updateOrderData(userUid, orderDetails, orderDetails?.orderId);
+
+    clearCart();
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
   };
 
@@ -81,6 +100,8 @@ function CartCheckout({
               <PaymentForm
                 onPlaceOrder={handlePlaceOrder}
                 selectedItems={selectedItems}
+                totalSubtotals={totalSubtotals}
+                grandTotal={grandTotal}
               />
             </div>
             {/* {isLoading && <Loader />} */}

@@ -5,11 +5,12 @@ function OrderConfirm({ orderDetails, selectedItems, totalSubtotals }) {
   const [loading, setLoading] = useState(false);
   console.log("order details in confirm: ", orderDetails);
 
+  console.log(totalSubtotals);
   // GRAND TOTAL
   const taxInterest = 0.05;
-  const taxes = Number(taxInterest * totalSubtotals);
+  const taxes = Number(taxInterest * orderDetails?.subtotal);
   const shippingFee = 10;
-  const grandTotal = Number(totalSubtotals + shippingFee + taxes);
+  const grandTotal = Number(orderDetails.subtotal + shippingFee + taxes);
 
   return (
     <div className="orderConfirm-section">
@@ -44,7 +45,7 @@ function OrderConfirm({ orderDetails, selectedItems, totalSubtotals }) {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            selectedItems.map((item) => (
+            orderDetails?.items.map((item) => (
               <OrderConfirmItem key={item.id} item={item} />
             ))
           )}
@@ -53,7 +54,9 @@ function OrderConfirm({ orderDetails, selectedItems, totalSubtotals }) {
         <div className="text-left col-span-3 pl-4 flex flex-col gap-1">
           <h2 className="font-semibold mb-2">Shipping Address</h2>
           {/* OPTIONAL CHAINING ENSURES ITEMS ARE ONLY LOADED WHEN STATE IS NOT NULL*/}
-          <p>Name: {orderDetails?.name}</p>
+          <p>OrderId: {orderDetails?.orderId}</p>
+          <p>Order Date: {orderDetails?.orderDate}</p>
+          <p>Customer Name: {orderDetails?.name}</p>
           <p>Email: {orderDetails?.email}</p>
           <p>Address: {orderDetails?.address}</p>
           <p>Payment Method: {orderDetails?.paymentOption}</p>
@@ -63,7 +66,7 @@ function OrderConfirm({ orderDetails, selectedItems, totalSubtotals }) {
       <div className="flex flex-col gap-4 w-1/2 border-t-2 py-4 my-4">
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span>$ {totalSubtotals.toFixed(2)}</span>
+          <span>$ {orderDetails?.subtotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping + Tax (if applicable)</span>

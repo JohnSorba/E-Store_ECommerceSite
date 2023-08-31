@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useUser } from "../components/AuthContext";
+import { useAuth, useUser } from "../components/AuthContext";
 import CartProduct from "../components/CartProduct";
 
 function Cart({
@@ -10,7 +10,10 @@ function Cart({
   updatedQuantity,
   product,
   onProductClick,
+  updateCartData,
 }) {
+  const { currentUser } = useAuth();
+  const userUid = currentUser.uid;
   // TOGGLE SELECTED CART ITEM
   const toggleItemSelection = (itemId) => {
     const updatedItems = cartItems.map((item) => {
@@ -20,6 +23,7 @@ function Cart({
       return item;
     });
     setCartItems(updatedItems);
+    updateCartData(userUid, updatedItems);
     localStorage.setItem("cart", JSON.stringify(updatedItems));
   };
 
