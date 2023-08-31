@@ -7,6 +7,7 @@ import { db } from "./firebase";
 import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
+import Orders from "./pages/Orders";
 import ProductDetails from "./pages/ProductDetails";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -30,6 +31,8 @@ function App() {
   console.log(currentUser);
   const userUid = currentUser?.uid;
   console.log("cart items: ", cartItems);
+
+  console.log("Rendering...");
 
   // RETRIEVE FROM FIREBASE
   const getCartData = async (userId) => {
@@ -221,6 +224,7 @@ function App() {
             element={<Register db={db} storeUserData={storeUserData} />}
           />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/#products-section" element={<HomePage />} />
           <Route
             path="/"

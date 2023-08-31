@@ -3,11 +3,10 @@ import { useAuth, useUser } from "./AuthContext";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useFirebase } from "./FirebaseContext";
 
-function Navbar({ cartItemCount, db }) {
+function Navbar({ cartItemCount }) {
   const { currentUser, logout } = useAuth();
-  // const { db } = useFirebase;
+  const [isDropDown, setIsDropDown] = useState(false);
   const navigate = useNavigate();
 
   const auth = getAuth();
@@ -21,6 +20,11 @@ function Navbar({ cartItemCount, db }) {
   const handleLogout = () => {
     logout(); // Clear user data
     navigate("/"); // Redirect to the home page
+  };
+
+  const toggleDropdown = () => {
+    console.log("dropdown button");
+    setIsDropDown((prevState) => !prevState);
   };
 
   return (
@@ -52,34 +56,11 @@ function Navbar({ cartItemCount, db }) {
                 </svg>
                 {cartItemCount !== 0 ? cartItemCount : 0}
               </NavLink>
-            </li>
-            <li>
-              <NavLink to="/wishlist" className="flex gap-0 items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                  />
-                </svg>
-                (2)
-              </NavLink>
-            </li>
-
-            {/*AUTHENTICATION*/}
-            <li>
-              <NavLink
-                to={`/profile/${
-                  user?.displayName !== null ? user?.displayName : user?.uid
-                }`}
-                className="flex items-center"
+            </li>{" "}
+            <li className={`relative group ${isDropDown ? "active" : ""}`}>
+              <button
+                onClick={toggleDropdown}
+                className="flex items-center border-none rounded-none p-0 bg-transparent text-black"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -96,13 +77,55 @@ function Navbar({ cartItemCount, db }) {
                   />
                 </svg>
                 {user?.displayName !== null ? user?.displayName : user?.email}
-              </NavLink>
-            </li>
-            <li>
-              {" "}
-              <button onClick={handleLogout} className="py-1 bg-slate-600">
-                Sign Out
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-4 h-4 ml-1"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
               </button>
+              {isDropDown && (
+                <div className="dropdown w-32">
+                  {/*AUTHENTICATION*/}
+
+                  <NavLink
+                    to={`/profile/${
+                      user?.displayName !== null ? user?.displayName : user?.uid
+                    }`}
+                    className="flex items-center dropdown-link hover:bg-slate-200 hover:border-l-slate-900 hover:border-l-4"
+                  >
+                    Profile
+                  </NavLink>
+                  <NavLink
+                    to="/wishlist"
+                    className="flex gap-0 items-center dropdown-link hover:bg-slate-200 hover:border-l-slate-900 hover:border-l-4"
+                  >
+                    Wishlist
+                  </NavLink>
+
+                  <NavLink
+                    to="/orders"
+                    className="flex gap-0 items-center dropdown-link hover:bg-slate-200 hover:border-l-slate-900 hover:border-l-4"
+                  >
+                    Your Orders
+                  </NavLink>
+
+                  <span
+                    onClick={handleLogout}
+                    className="dropdown-link cursor-pointer hover:bg-slate-200 hover:border-l-slate-900 hover:border-l-4 border-t-2"
+                  >
+                    Sign Out
+                  </span>
+                </div>
+              )}
             </li>
           </>
         ) : (
@@ -142,3 +165,18 @@ function Navbar({ cartItemCount, db }) {
 }
 
 export default Navbar;
+
+/*  <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      />
+                    </svg> */
