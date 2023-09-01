@@ -18,7 +18,7 @@ function CartCheckout({
   const { currentUser } = useAuth();
   const userUid = currentUser.uid;
 
-  console.log(totalSubtotals);
+  console.log("order details: ", orderDetails);
 
   const clearCart = () => {
     const updatedCart = cartItems.filter((item) => !item.isChecked);
@@ -30,8 +30,6 @@ function CartCheckout({
   };
 
   const handlePlaceOrder = (orderDetails) => {
-    console.log("selected items in Form: ", orderDetails.items);
-
     console.log("checkout orderDetails: ", orderDetails);
     console.log("Form submitted");
     setOrderPlaced(true);

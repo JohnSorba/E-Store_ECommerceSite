@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "./components/AuthContext";
 // import { FirebaseProvider } from "./components/FirebaseContext";
-import { ref, set, get, onValue } from "firebase/database";
+import { ref, set, get } from "firebase/database";
 import { db } from "./firebase";
 import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
@@ -33,6 +33,8 @@ function App() {
   console.log("cart items: ", cartItems);
 
   console.log("Rendering...");
+
+  console.log("cartItems type: ", typeof cartItems);
 
   // RETRIEVE FROM FIREBASE
   const getCartData = async (userId) => {
@@ -224,7 +226,10 @@ function App() {
             element={<Register db={db} storeUserData={storeUserData} />}
           />
           <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route
+            path="/orders"
+            element={<Orders orderDetails={orderDetails} />}
+          />
           <Route path="/#products-section" element={<HomePage />} />
           <Route
             path="/"

@@ -13,6 +13,16 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       }
+    },
+    "order": {
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid",
+        "orderId": {
+          ".read": "$uid === auth.uid",
+          ".write": "$uid === auth.uid"
+        }
+      }
     }
   }
 }

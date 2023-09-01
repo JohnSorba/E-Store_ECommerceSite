@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-function OrderConfirm({ orderDetails, selectedItems, totalSubtotals }) {
+function OrderConfirm({ orderDetails }) {
   const [loading, setLoading] = useState(false);
   console.log("order details in confirm: ", orderDetails);
 
-  console.log(totalSubtotals);
   // GRAND TOTAL
   const taxInterest = 0.05;
   const taxes = Number(taxInterest * orderDetails?.subtotal);
   const shippingFee = 10;
-  const grandTotal = Number(orderDetails.subtotal + shippingFee + taxes);
+  const grandTotal = Number(orderDetails?.subtotal + shippingFee + taxes);
 
   return (
     <div className="orderConfirm-section">

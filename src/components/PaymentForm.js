@@ -23,7 +23,7 @@ function PaymentForm({
   const newDate = new Date(date);
   const currentDate = newDate.toLocaleDateString();
   const currentTime = newDate.toLocaleTimeString();
-  const currentDateTime = `${currentDate}-${currentTime}`;
+  const currentDateTime = `${currentDate} - ${currentTime}`;
 
   // generate random number
   function generateOrderId() {
