@@ -13,9 +13,9 @@ function ProductOrderConfirm({ orderDetails }) {
   // GRAND TOTAL
   const subtotal = quantityValue * selectedProduct.price;
   const taxInterest = 0.05;
-  const taxes = Number(taxInterest * orderDetails?.subtotal);
+  const taxes = Number(taxInterest * subtotal);
   const shippingFee = 10;
-  const grandTotal = Number(orderDetails?.subtotal + shippingFee + taxes);
+  const grandTotal = Number(subtotal + shippingFee + taxes);
 
   useEffect(
     function () {
@@ -60,9 +60,10 @@ function ProductOrderConfirm({ orderDetails }) {
           />
         </svg>
       </h1>
-      <p className="text-gray-400 text-xl">
-        Your order #2382038434 has shipped and will be with you soon,{" "}
-        {orderDetails?.name}
+      <p className="text-gray-400 text-lg">
+        Your order [#{orderDetails?.orderId}] has shipped and will be with you
+        soon, {orderDetails?.name}! <br /> You must expect is as early as{" "}
+        {orderDetails?.deliveryDate} at {orderDetails?.time}...
       </p>
 
       <div className="grid grid-cols-8 gap-x-8 my-16 border-t-2 py-4">
@@ -73,7 +74,7 @@ function ProductOrderConfirm({ orderDetails }) {
             <div>
               <li className="grid grid-cols-8 gap-8 py-4 border-b-1 border-gray-200">
                 <img
-                  src={orderDetails?.items}
+                  src={selectedProduct.image}
                   alt="An image"
                   className="col-span-2"
                 />
@@ -102,6 +103,8 @@ function ProductOrderConfirm({ orderDetails }) {
         <div className="text-left col-span-3 pl-4 flex flex-col gap-1">
           <h2 className="font-semibold mb-2">Shipping Address</h2>
           {/* OPTIONAL CHAINING ENSURES ITEMS ARE ONLY LOADED WHEN STATE IS NOT NULL*/}
+          <p>OrderId: {orderDetails?.orderId}</p>
+          <p>Order Date: {orderDetails?.orderDate}</p>
           <p>Name: {orderDetails?.name}</p>
           <p>Email: {orderDetails?.email}</p>
           <p>Address: {orderDetails?.address}</p>
@@ -112,11 +115,13 @@ function ProductOrderConfirm({ orderDetails }) {
       <div className="flex flex-col gap-8 w-1/2 border-t-2 py-4 my-8">
         <div className="flex justify-between border-b border-gray-400 pb-2">
           <span>Subtotal</span>
-          <span>$ {orderDetails?.subtotal.toFixed(2)}</span>
+          <span>$ {subtotal.toFixed(2)}</span>
         </div>
         <div className="flex justify-between border-b border-gray-400 pb-2">
-          <span>Shipping</span>
-          <span>$ {shippingFee.toFixed(2)}</span>
+          <span>Shipping + Tax (if applicable)</span>
+          <span>
+            ${shippingFee} (${taxes.toFixed(2)})
+          </span>
         </div>
         <div className="flex justify-between border-b pb-2 text-xl text-orange-600">
           <span>Total</span>

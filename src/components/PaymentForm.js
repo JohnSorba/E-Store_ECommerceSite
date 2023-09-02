@@ -7,6 +7,8 @@ function PaymentForm({
   selectedProduct,
   totalSubtotals,
   grandTotal,
+  productTotal,
+  productSubtotal,
 }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,6 +26,15 @@ function PaymentForm({
   const currentDate = newDate.toLocaleDateString();
   const currentTime = newDate.toLocaleTimeString();
   const currentDateTime = `${currentDate} - ${currentTime}`;
+  const deliveryDate = date + 700000000;
+  const newDeliveryDate = new Date(deliveryDate).toLocaleDateString();
+  const newDeliveryTime = new Date(deliveryDate).toLocaleTimeString();
+
+  console.log(date);
+  console.log("now", currentDate);
+
+  console.log(deliveryDate);
+  console.log(newDeliveryDate);
 
   // generate random number
   function generateOrderId() {
@@ -32,6 +43,35 @@ function PaymentForm({
     return `${timestamp}-${randomString}`;
   }
   const orderId = generateOrderId();
+
+  console.log("selected product in payment form: ", selectedProduct);
+
+  const newSubtotaltotal = () => {
+    let number = 0;
+
+    if (selectedProduct) {
+      number = productSubtotal.toFixed(2);
+      return number;
+    } else {
+      number = totalSubtotals.toFixed(2);
+      return number;
+    }
+  };
+  const subtotal = newSubtotaltotal();
+
+  const newtotal = () => {
+    let number = 0;
+
+    if (selectedProduct) {
+      // toLocaleString() adds a comma to rep a 1,000
+      number = Number(productTotal.toLocaleString()).toFixed(2);
+      return number;
+    } else {
+      number = Number(grandTotal.toLocaleString()).toFixed(2);
+      return number;
+    }
+  };
+  const total = newtotal();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,9 +84,11 @@ function PaymentForm({
       address,
       paymentOption,
       items: selectedItems ? selectedItems : selectedProduct,
-      subtotal: totalSubtotals,
-      total: grandTotal.toFixed(2),
+      subtotal: subtotal,
+      total: total,
       orderDate: currentDateTime,
+      deliveryDate: newDeliveryDate,
+      time: newDeliveryTime,
     };
 
     onPlaceOrder(orderDetails);
@@ -227,7 +269,9 @@ function PaymentForm({
       </div>{" "}
       <button
         onClick={handleSubmit}
-        className="mt-8 hover:bg-transparent hover:text-black hover:outline hover:outline-orange-600 "
+        className="mt-8 hover:bg-transparent 
+        outline-2 outline-slate-500
+        hover:text-slate-600 hover:outline hover:outline-slate-600 "
       >
         {selectedProduct ? (
           <Link to={`/order-confirm/${id}/${quantity}`}>Place Order</Link>

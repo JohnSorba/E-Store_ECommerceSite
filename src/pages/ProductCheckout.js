@@ -14,7 +14,11 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
   const { currentUser } = useAuth();
   const userUid = currentUser.uid;
 
-  console.log(selectedProduct);
+  const selectProduct = selectedProduct[0];
+
+  console.log("selected product (p-checkout): ", selectedProduct);
+  console.log("selected product (p-checkout) length: ", selectedProduct.length);
+  console.log("select product (p-checkout): ", selectProduct);
 
   const handlePlaceOrder = (orderDetails) => {
     setOrderPlaced(true);
@@ -23,6 +27,8 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
     updateOrderData(userUid, orderDetails, orderDetails?.orderId);
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
   };
+
+  console.log("orderDetails in P-Checkout: ", orderDetails);
 
   // Convert quantity to a number
   const quantityValue = parseInt(quantity, 10);
@@ -33,9 +39,9 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
   // const product = products.find((item) => item.id === parseInt(id));
 
   const shippingFee = 10;
-  const totalAmount = orderDetails?.price * quantityValue;
-  const taxes = taxInterest * totalAmount;
-  const grandTotal = totalAmount + shippingFee + taxes;
+  const subtotal = selectProduct?.price * quantityValue;
+  const taxes = taxInterest * subtotal;
+  const grandTotal = subtotal + shippingFee + taxes;
 
   useEffect(
     function () {
@@ -44,7 +50,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
           setIsLoading(true);
           const res = await fetch(`https://fakestoreapi.com/products/${id}`);
           const data = await res.json();
-          setSelectedProduct(data);
+          setSelectedProduct([data]);
           console.log(data);
         } catch (error) {
           console.error("There was an issue fetching the data");
@@ -96,7 +102,8 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
               <PaymentForm
                 onPlaceOrder={handlePlaceOrder}
                 selectedProduct={selectedProduct}
-                grandTotal={grandTotal}
+                productTotal={grandTotal}
+                productSubtotal={subtotal}
               />
             </div>
             {isLoading ? (
@@ -110,12 +117,12 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
                     <span>Order Summary ({quantityValue} Item) </span>
                   )}
                 </h1>
-                {selectedProduct && (
+                {selectProduct && (
                   <div className="flex flex-col h-full justify-between gap-16">
                     <div className="grid grid-cols-2 gap-8">
                       <img
-                        src={selectedProduct.image}
-                        alt={selectedProduct.title}
+                        src={selectProduct.image}
+                        alt={selectProduct.title}
                         className="border border-orange-200 rounded-xl p-2"
                       />
                       <div>
@@ -125,7 +132,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
                         <h2>
                           Rating: &#9733;{" "}
                           <span className="text-lg font-semibold">
-                            {selectedProduct.rating?.rate} /
+                            {selectProduct.rating?.rate} /
                           </span>
                           5
                         </h2>
@@ -133,7 +140,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
                         <p className="mt-8">
                           ${" "}
                           <span className="text-2xl">
-                            {selectedProduct.price}
+                            {selectProduct.price}
                           </span>
                         </p>
                       </div>
@@ -141,9 +148,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
                     <div className="flex flex-col">
                       <p className="flex justify-between py-2 border-y">
                         Subtotal ({quantityValue} items):{" "}
-                        <span className="text-lg">
-                          $ {orderDetails.subtotal}
-                        </span>
+                        <span className="text-lg">$ {subtotal.toFixed(2)}</span>
                       </p>
                       <p className="flex justify-between py-2 border-b">
                         Shipping: <span>$ {shippingFee.toFixed(2)}</span>
@@ -152,7 +157,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
                         Taxes (5%): <span>$ {taxes.toFixed(2)}</span>
                       </p>
                       <p className="flex justify-between py-4 text-2xl text-orange-500 font-semibold">
-                        Order Total:<span>${grandTotal}</span>
+                        Order Total:<span>${grandTotal.toFixed(2)}</span>
                       </p>
                     </div>
                   </div>

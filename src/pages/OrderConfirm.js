@@ -35,8 +35,9 @@ function OrderConfirm({ orderDetails }) {
         </svg>
       </h1>
       <p className="text-gray-400 text-xl">
-        Your order #2382038434 has shipped and will be with you soon,{" "}
-        {orderDetails?.name}.
+        Your order [#{orderDetails.orderId}] has shipped and will be with you
+        soon, {orderDetails?.name}. ! <br /> You must expect is as early as{" "}
+        {orderDetails.deliveryDate}
       </p>
 
       <div className="grid grid-cols-8 gap-x-8 my-16 border-t-2 py-4">
@@ -92,7 +93,7 @@ function OrderConfirmItem({ item }) {
     <div>
       {/* <li>{item.title}</li> */}
       <li className="grid grid-cols-8 gap-8 py-4 border-b-2 border-gray-300">
-        <img src={item.image} alt="An image" className="col-span-2" />
+        <img src={item.image} alt={item.title} className="col-span-2" />
         <div className="flex flex-col gap-4 col-span-5">
           <span className="text-lg font-semibold">{item.title}</span>
           <span className="text-gray-500">{item.description}</span>

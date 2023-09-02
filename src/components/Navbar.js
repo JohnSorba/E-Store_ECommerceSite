@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 import { useAuth, useUser } from "./AuthContext";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function Navbar({ cartItemCount }) {
+function Navbar({ cartItemCount, setCartItems }) {
   const { currentUser, logout } = useAuth();
   const [isDropDown, setIsDropDown] = useState(false);
   const navigate = useNavigate();
@@ -17,6 +17,18 @@ function Navbar({ cartItemCount }) {
   } else {
     console.log("User is signed out");
   }
+
+  useEffect(() => {
+    // Code to run on component mount
+    if (!currentUser) {
+      // setUserData(null);
+      setCartItems([]);
+    }
+    return () => {
+      // Code to run on component unmount
+    };
+  }, [currentUser]);
+
   const handleLogout = () => {
     logout(); // Clear user data
     navigate("/"); // Redirect to the home page

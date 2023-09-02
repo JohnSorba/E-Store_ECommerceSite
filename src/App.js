@@ -18,6 +18,7 @@ import ProductOrderConfirm from "./pages/ProductOrderConfirm";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProfilePage from "./pages/ProfilePage";
+import { updateProfile } from "firebase/auth";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -213,7 +214,11 @@ function App() {
   return (
     <div className="mt-12 text-sm">
       <BrowserRouter>
-        <Navbar cartItemCount={cartItems.length} db={db} />
+        <Navbar
+          cartItemCount={cartItems.length}
+          db={db}
+          setCartItems={setCartItems}
+        />
 
         <Routes>
           <Route path="/login" element={<Login getCartData={getCartData} />} />
@@ -228,7 +233,12 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route
             path="/orders"
-            element={<Orders orderDetails={orderDetails} />}
+            element={
+              <Orders
+                orderDetails={orderDetails}
+                updateOrderData={updateOrderData}
+              />
+            }
           />
           <Route path="/#products-section" element={<HomePage />} />
           <Route
