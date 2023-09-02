@@ -4,18 +4,23 @@ import { Link } from "react-router-dom";
 
 import Loader from "../components/Loader";
 import PaymentForm from "../components/PaymentForm";
+import { useAuth } from "../components/AuthContext";
 
-function ProductCheckout({ orderDetails, setOrderDetails }) {
+function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
   const [selectedProduct, setSelectedProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const { id, quantity } = useParams();
+  const { currentUser } = useAuth();
+  const userUid = currentUser.uid;
 
   console.log(selectedProduct);
 
   const handlePlaceOrder = (orderDetails) => {
     setOrderPlaced(true);
     setOrderDetails(orderDetails);
+
+    updateOrderData(userUid, orderDetails, orderDetails?.orderId);
     localStorage.setItem("orderDetails", JSON.stringify(orderDetails));
   };
 
@@ -28,7 +33,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
   // const product = products.find((item) => item.id === parseInt(id));
 
   const shippingFee = 10;
-  const totalAmount = selectedProduct.price * quantityValue;
+  const totalAmount = orderDetails?.price * quantityValue;
   const taxes = taxInterest * totalAmount;
   const grandTotal = totalAmount + shippingFee + taxes;
 
@@ -91,6 +96,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
               <PaymentForm
                 onPlaceOrder={handlePlaceOrder}
                 selectedProduct={selectedProduct}
+                grandTotal={grandTotal}
               />
             </div>
             {isLoading ? (
@@ -136,7 +142,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
                       <p className="flex justify-between py-2 border-y">
                         Subtotal ({quantityValue} items):{" "}
                         <span className="text-lg">
-                          $ {totalAmount.toFixed(2)}
+                          $ {orderDetails.subtotal}
                         </span>
                       </p>
                       <p className="flex justify-between py-2 border-b">
@@ -146,7 +152,7 @@ function ProductCheckout({ orderDetails, setOrderDetails }) {
                         Taxes (5%): <span>$ {taxes.toFixed(2)}</span>
                       </p>
                       <p className="flex justify-between py-4 text-2xl text-orange-500 font-semibold">
-                        Order Total:<span>${grandTotal.toFixed(2)}</span>
+                        Order Total:<span>${grandTotal}</span>
                       </p>
                     </div>
                   </div>

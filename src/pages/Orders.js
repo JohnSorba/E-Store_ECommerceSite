@@ -8,12 +8,6 @@ function Orders({ orderDetails }) {
   const [order, setOrder] = useState([]);
   const userUid = currentUser.uid;
 
-  // const newOrder = [];
-  // newOrder.push(order);
-  // console.log("new order", newOrder);
-
-  // const {} = order;
-
   console.log("order items: ", order);
 
   const getOrderData = async (userId) => {
@@ -38,6 +32,8 @@ function Orders({ orderDetails }) {
       if (data) {
         const orders = Object.values(data);
         console.log("orders array", orders);
+        const keys = Object.keys(data);
+        console.log("object keys", keys);
 
         // Object.values(data).map((order) => {
         //   setOrder((oldArray) => [...oldArray, order]);
@@ -54,27 +50,29 @@ function Orders({ orderDetails }) {
       <h1 className="text-5xl text-center py-8 border-b-2">
         Your Recent Orders
       </h1>
-      <div className="checkout-section">
+      <div className="orders-section">
         <h1 className="text-3xl mb-4">Orders</h1>{" "}
-        <ul>
+        <ul className="max-w-3xl mx-auto">
           {order.map((item) => (
             <li
               key={item.orderId}
               item={item}
-              className="mb-8 text-left border-4 shadow-lg rounded-3xl"
+              className="mb-8 text-left border-4 shadow-lg rounded-3xl text-sm"
             >
-              <article className="grid grid-cols-3 gap-4 bg-gray-100 px-4 py-2 rounded-t-3xl">
+              <article className="grid grid-cols-3 gap-y-4 gap-x-8 bg-gray-100 px-8 py-4 rounded-t-3xl">
                 <p>
                   Order Date: <br />
                   {item.orderDate}
                 </p>
                 <p>
-                  Total: <br />
-                  {item.total}
+                  Total: <br />$ {item.total}
                 </p>
-                <p>Order #: {item.orderId}</p>
                 <p>
-                  Billing Address: <br />
+                  Order #: <br />
+                  {item.orderId}
+                </p>
+                <p>
+                  Delivery Address: <br />
                   {item.address}
                 </p>
                 <p>

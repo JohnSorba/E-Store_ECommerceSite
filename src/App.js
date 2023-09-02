@@ -211,7 +211,7 @@ function App() {
   // Retrieve cart data from Firebase
 
   return (
-    <div className="mt-12">
+    <div className="mt-12 text-sm">
       <BrowserRouter>
         <Navbar cartItemCount={cartItems.length} db={db} />
 
@@ -280,6 +280,7 @@ function App() {
               <ProductCheckout
                 orderDetails={orderDetails}
                 setOrderDetails={setOrderDetails}
+                updateOrderData={updateOrderData}
               />
             }
           />

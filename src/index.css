@@ -234,6 +234,11 @@ table {
   text-align: center;
 }
 
+.orders-section {
+  padding: 3% 10%;
+  text-align: center;
+}
+
 .orderConfirm-section {
   padding: 3% 10%;
   text-align: left;

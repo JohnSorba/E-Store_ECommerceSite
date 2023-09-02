@@ -23,7 +23,6 @@ function Navbar({ cartItemCount }) {
   };
 
   const toggleDropdown = () => {
-    console.log("dropdown button");
     setIsDropDown((prevState) => !prevState);
   };
 
