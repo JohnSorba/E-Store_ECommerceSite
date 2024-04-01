@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
-/*
 const firebaseConfig = {
   apiKey: "AIzaSyAFHx-hoK6-ogQPckh1-M3BZVSDW3Wadv8 ",
   authDomain: "e-store-f957f.firebaseapp.com",
@@ -12,8 +11,8 @@ const firebaseConfig = {
   databaseURL:
     "https://e-store-f957f-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
-*/
 
+/*
 const firebaseConfig = {
   apiKey: "AIzaSyDo2HzbkNWAX0avrpK_zhevmVu_tmkLDtY",
   authDomain: "monadb-dd265.firebaseapp.com",
@@ -24,6 +23,7 @@ const firebaseConfig = {
   databaseURL:
     "https://monadb-dd265-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
+*/
 
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
