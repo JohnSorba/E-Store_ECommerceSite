@@ -53,7 +53,7 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
       ) : (
         <div className="select-products-section">
           <p>
-            <Link to="/">&larr; Back to products</Link>
+            <Link to="/products">&larr; Back to products</Link>
           </p>
           <div className="grid grid-cols-2 gap-x-16 mt-16">
             <img src={selectedProduct.image} alt={selectedProduct.title} />

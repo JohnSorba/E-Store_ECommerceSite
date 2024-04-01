@@ -1,34 +1,23 @@
-import SearchBar from "../components/SearchBar";
-import Products from "../components/Products";
 import Header from "../components/Header";
-import Loader from "../components/Loader";
 
-function HomePage({
-  products,
-  searchQuery,
-  setSearchQuery,
-  onProductClick,
-  loading,
-  cartItems,
-}) {
+function HomePage({}) {
   return (
     <div>
       <Header />
-      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-
-      {loading ? (
-        <Loader />
-      ) : products ? (
-        <Products
-          products={products}
-          searchQuery={searchQuery}
-          onProductClick={onProductClick}
-          loading={loading}
-          cartItems={cartItems}
-        />
-      ) : (
-        <p>Products Not Found! ❌</p>
-      )}
+      <section className="cart-section grid grid-cols-2 gap-8">
+        <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
+          1
+        </article>
+        <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
+          2
+        </article>
+        <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
+          3
+        </article>
+        <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
+          4
+        </article>
+      </section>
     </div>
   );
 }

@@ -35,9 +35,9 @@ function OrderConfirm({ orderDetails }) {
         </svg>
       </h1>
       <p className="text-gray-400 text-xl">
-        Your order [#{orderDetails.orderId}] has shipped and will be with you
+        Your order [#{orderDetails?.orderId}] has shipped and will be with you
         soon, {orderDetails?.name}. ! <br /> You must expect is as early as{" "}
-        {orderDetails.deliveryDate}
+        {orderDetails?.deliveryDate}
       </p>
 
       <div className="grid grid-cols-8 gap-x-8 my-16 border-t-2 py-4">
@@ -66,7 +66,7 @@ function OrderConfirm({ orderDetails }) {
       <div className="flex flex-col gap-4 w-1/2 border-t-2 py-4 my-4">
         <div className="flex justify-between">
           <span>Subtotal</span>
-          <span>$ {orderDetails?.subtotal.toFixed(2)}</span>
+          <span>$ {Number(orderDetails?.subtotal).toFixed(2)}</span>
         </div>
         <div className="flex justify-between">
           <span>Shipping + Tax (if applicable)</span>
@@ -77,11 +77,11 @@ function OrderConfirm({ orderDetails }) {
         <div className="flex justify-between text-xl mt-4 border-t pt-2 border-orange-500 text-orange-600">
           <span>Total</span>
           <span className="text-2xl font-semibold">
-            $ {grandTotal.toFixed(2)}
+            $ {Number(grandTotal).toFixed(2)}
           </span>
         </div>
       </div>
-      <Link to="/" className="text-orange-700 font-semibold text-lg">
+      <Link to="/products" className="text-orange-700 font-semibold text-lg">
         &larr; Continue shopping
       </Link>
     </div>

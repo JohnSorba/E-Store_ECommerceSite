@@ -128,7 +128,7 @@ function ProductOrderConfirm({ orderDetails }) {
           <span>$ {grandTotal.toFixed(2)}</span>
         </div>
       </div>
-      <Link to="/" className="text-orange-700 font-semibold text-lg">
+      <Link to="/products" className="text-orange-700 font-semibold text-lg">
         &larr; Continue shopping
       </Link>
     </div>

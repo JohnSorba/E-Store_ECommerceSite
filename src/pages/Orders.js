@@ -8,8 +8,6 @@ function Orders() {
   const [order, setOrder] = useState([]);
   const userUid = currentUser?.uid;
 
-  console.log("order items: ", order);
-
   const getOrderData = async (userId) => {
     try {
       const orderRef = ref(db, `orders/${userId}`);
@@ -31,7 +29,6 @@ function Orders() {
       const data = await getOrderData(userUid);
       if (data) {
         const orders = Object.values(data);
-        console.log("orders array", orders);
         setOrder(orders);
       }
     };

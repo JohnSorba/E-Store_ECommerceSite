@@ -72,7 +72,7 @@ function Cart({
           )}
         </div>
         <p>
-          <Link to="/">&larr; Back to products</Link>
+          <Link to="/products">&larr; Back to products</Link>
         </p>
         {cartItems.length > 0 ? (
           <>

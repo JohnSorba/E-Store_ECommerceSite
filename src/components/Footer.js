@@ -5,7 +5,7 @@ function Footer() {
 
   return (
     <footer className="flex justify-between py-4 px-48 shadow-inner ">
-      <p>Created by Daniel Ndanema</p>
+      <p>Developed by Adeniyi Busari Mubarak</p>
       <p>Copyright &copy; {currentYear}</p>
     </footer>
   );

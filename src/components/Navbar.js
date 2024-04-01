@@ -39,13 +39,13 @@ function Navbar({ cartItemCount, setCartItems }) {
   };
 
   return (
-    <nav className="flex items-center justify-between px-40 py-2 bg-white fixed top-0 left-0 right-0 shadow-sm">
+    <nav className="flex items-center justify-between px-40 py-2 bg-white z-30 fixed top-0 left-0 right-0 shadow-sm">
       <NavLink to="/" className="text-xl font-bold font-serif">
-        E-STORE
+        MONA
       </NavLink>
       <ul className="nav">
         <li>
-          <NavLink to="/#products-section">Products</NavLink>
+          <NavLink to="/products">Products</NavLink>
         </li>
         {currentUser ? (
           <>

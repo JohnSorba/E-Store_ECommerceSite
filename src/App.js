@@ -5,6 +5,7 @@ import { useAuth } from "./components/AuthContext";
 import { ref, set, get } from "firebase/database";
 import { db } from "./firebase";
 import HomePage from "./pages/HomePage";
+import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import Orders from "./pages/Orders";
@@ -18,7 +19,6 @@ import ProductOrderConfirm from "./pages/ProductOrderConfirm";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProfilePage from "./pages/ProfilePage";
-import { updateProfile } from "firebase/auth";
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -29,13 +29,9 @@ function App() {
   const [orderDetails, setOrderDetails] = useState(null);
 
   const { currentUser } = useAuth();
-  console.log(currentUser);
   const userUid = currentUser?.uid;
-  console.log("cart items: ", cartItems);
 
   console.log("Rendering...");
-
-  console.log("cartItems type: ", typeof cartItems);
 
   // RETRIEVE FROM FIREBASE
   const getCartData = async (userId) => {
@@ -200,6 +196,7 @@ function App() {
         const res = await fetch("https://fakestoreapi.com/products");
         const data = await res.json();
         setProducts(data);
+        console.log(products);
       } catch (error) {
         console.error("There was an issue fetching the data");
       } finally {
@@ -237,6 +234,19 @@ function App() {
               <Orders
                 orderDetails={orderDetails}
                 updateOrderData={updateOrderData}
+              />
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <Products
+                products={products}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                onProductClick={handleProductClick}
+                loading={isLoading}
+                cartItems={cartItems}
               />
             }
           />
