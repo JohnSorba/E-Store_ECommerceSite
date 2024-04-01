@@ -65,7 +65,7 @@ function ProductCheckout({ orderDetails, setOrderDetails, updateOrderData }) {
 
   return (
     <div className="checkout-section">
-      <h1 className="text-5xl mb-24">Welcome to the Checkout Page!</h1>
+      <h1 className="text-5xl mb-24">Checkout Page!</h1>
       <div className="text-left mb-4">
         <Link to="/">&larr; Back to products</Link>
       </div>

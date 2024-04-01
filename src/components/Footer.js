@@ -6,6 +6,7 @@ function Footer() {
   return (
     <footer className="flex justify-between py-4 px-48 shadow-inner ">
       <p>Developed by Adeniyi Busari Mubarak</p>
+      <p>Major Project II</p>
       <p>Copyright &copy; {currentYear}</p>
     </footer>
   );

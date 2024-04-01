@@ -73,8 +73,13 @@ a {
 }
 
 .hero {
-  height: 30vh;
+  height: 60vh;
   background: url(/public/ecommere_hero.png);
+}
+
+.hero-details h1 {
+  /* font-size: 5rem; */
+  text-align: center;
 }
 
 .search {

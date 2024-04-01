@@ -1,15 +1,25 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function OrderConfirm({ orderDetails }) {
   const [loading, setLoading] = useState(false);
-  console.log("order details in confirm: ", orderDetails);
+  // console.log("order details in confirm: ", orderDetails);
+  const navigate = useNavigate();
 
   // GRAND TOTAL
   const taxInterest = 0.05;
-  const taxes = Number(taxInterest * orderDetails?.subtotal);
   const shippingFee = 10;
-  const grandTotal = Number(orderDetails?.subtotal + shippingFee + taxes);
+  const subtotal = Number(orderDetails?.subtotal);
+
+  const taxes = taxInterest * subtotal;
+
+  const totalShipping = shippingFee + taxes;
+  const grandTotal = Number(subtotal + totalShipping).toFixed(2);
+
+  const goToProducts = () => {
+    // navigate("/products");
+    navigate(-4);
+  };
 
   return (
     <div className="orderConfirm-section">
@@ -36,7 +46,7 @@ function OrderConfirm({ orderDetails }) {
       </h1>
       <p className="text-gray-400 text-xl">
         Your order [#{orderDetails?.orderId}] has shipped and will be with you
-        soon, {orderDetails?.name}. ! <br /> You must expect is as early as{" "}
+        soon, {orderDetails?.name}. ! <br /> You must expect it as early as{" "}
         {orderDetails?.deliveryDate}
       </p>
 
@@ -76,14 +86,15 @@ function OrderConfirm({ orderDetails }) {
         </div>
         <div className="flex justify-between text-xl mt-4 border-t pt-2 border-orange-500 text-orange-600">
           <span>Total</span>
-          <span className="text-2xl font-semibold">
-            $ {Number(grandTotal).toFixed(2)}
-          </span>
+          <span className="text-2xl font-semibold">$ {grandTotal}</span>
         </div>
       </div>
-      <Link to="/products" className="text-orange-700 font-semibold text-lg">
+      <p
+        className="text-orange-700 font-semibold text-lg"
+        onClick={goToProducts}
+      >
         &larr; Continue shopping
-      </Link>
+      </p>
     </div>
   );
 }
@@ -102,7 +113,10 @@ function OrderConfirmItem({ item }) {
           </span>
         </div>
         <span className=" col-span-1 justify-self-end self-end">
-          $<span className="text-3xl font-semibold">{item.price}</span>
+          $
+          <span className="text-3xl font-semibold">
+            {item.price * item.quantity}
+          </span>
         </span>
       </li>
     </div>

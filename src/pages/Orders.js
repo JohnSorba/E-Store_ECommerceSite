@@ -8,6 +8,8 @@ function Orders() {
   const [order, setOrder] = useState([]);
   const userUid = currentUser?.uid;
 
+  console.log(order);
+
   const getOrderData = async (userId) => {
     try {
       const orderRef = ref(db, `orders/${userId}`);
@@ -90,7 +92,7 @@ function Orders() {
                 </p>
               </article>
               <ul className="grid grid-cols-6">
-                {item.items.map((item) => (
+                {item.items?.map((item) => (
                   <>
                     <li
                       key={item.id}
@@ -119,7 +121,7 @@ function Orders() {
                       <span className=" col-span-1 justify-self-end self-end">
                         $
                         <span className="text-3xl font-semibold">
-                          {item.price}
+                          {item.price * item?.quantity || item.price}
                         </span>
                       </span>{" "}
                     </li>{" "}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 function PaymentForm({
   onPlaceOrder,
@@ -20,6 +20,10 @@ function PaymentForm({
   const [cvc, setCvc] = useState("");
   const [paymentOption, setPaymentOption] = useState("credit");
   const { id, quantity } = useParams();
+  const navigate = useNavigate();
+
+  const [warning, setWarning] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
 
   const date = Date.now();
   const newDate = new Date(date);
@@ -29,12 +33,6 @@ function PaymentForm({
   const deliveryDate = date + 700000000;
   const newDeliveryDate = new Date(deliveryDate).toLocaleDateString();
   const newDeliveryTime = new Date(deliveryDate).toLocaleTimeString();
-
-  console.log(date);
-  console.log("now", currentDate);
-
-  console.log(deliveryDate);
-  console.log(newDeliveryDate);
 
   // generate random number
   function generateOrderId() {
@@ -76,6 +74,21 @@ function PaymentForm({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !address ||
+      !cardNumber ||
+      !cardName ||
+      !dateExpired ||
+      !cvc
+    ) {
+      setShowWarning(true);
+      setWarning("Please fill in all details");
+      return;
+    }
+
     const orderDetails = {
       orderId: orderId,
       name,
@@ -92,12 +105,22 @@ function PaymentForm({
     };
 
     onPlaceOrder(orderDetails);
+
+    selectedProduct
+      ? navigate(`/order-confirm/${id}/${quantity}`)
+      : navigate(`/orderConfirm`);
   };
+
+  // if (name.length > 0) {
+  //   setWarning("");
+  // }
 
   return (
     <form onSubmit={handleSubmit} className="mb-8">
       <div className="mb-16">
         <h1 className="text-2xl mb-8 font-semibold">Contact Information</h1>
+
+        {/* Name */}
         <div className="flex gap-4">
           <input
             type="text"
@@ -107,6 +130,8 @@ function PaymentForm({
             className="block w-full mb-4 py-2 px-2  border-2 rounded-lg "
           />
         </div>
+
+        {/* Email and Phone*/}
         <div className="flex gap-4">
           <input
             type="email"
@@ -123,6 +148,8 @@ function PaymentForm({
             className="block w-full mb-4 py-2 px-2  border-2 rounded-lg"
           />
         </div>
+
+        {/* Address */}
         <div>
           <input
             type="text"
@@ -133,6 +160,7 @@ function PaymentForm({
           />
         </div>
       </div>
+      {/* Payment Options */}
       <div>
         <h1 className="text-2xl mb-4 font-semibold">Payment Options</h1>
         <div className="flex gap-8 mb-4">
@@ -269,16 +297,17 @@ function PaymentForm({
       </div>{" "}
       <button
         onClick={handleSubmit}
-        className="mt-8 hover:bg-transparent 
+        className="my-8 hover:bg-transparent 
         outline-2 outline-slate-500
-        hover:text-slate-600 hover:outline hover:outline-slate-600 "
+        hover:text-slate-600 hover:outline hover:outline-slate-600 block"
       >
-        {selectedProduct ? (
-          <Link to={`/order-confirm/${id}/${quantity}`}>Place Order</Link>
-        ) : (
-          <Link to={`/orderConfirm`}>Place Order</Link>
-        )}{" "}
+        Place Order
       </button>
+      {showWarning && (
+        <p className="text-white bg-red-600 px-4 py-1 rounded-2xl inline">
+          {warning}
+        </p>
+      )}
     </form>
   );
 }
