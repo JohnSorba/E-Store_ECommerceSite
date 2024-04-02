@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth, useUser } from "../components/AuthContext";
@@ -9,8 +9,16 @@ function Login({ getCartData }) {
   const { user, setUser } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [warning, setWarning] = useState("");
   const navigate = useNavigate();
   const auth = getAuth();
+
+  useEffect(() => {
+    // Check if user is logged in and location is login path
+    if (currentUser && window.location.pathname === "/login") {
+      navigate("/"); // Replace '/home' with your desired redirect path
+    }
+  }, [currentUser]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,13 +36,30 @@ function Login({ getCartData }) {
       setUser(user);
       // await getCartData(userUid);
 
-      console.log("Logged In User: ", user);
+      console.log("Logged In User Successfully: ", user);
+      // User successfully logged in, handle success scenario (e.g., redirect)
       navigate(
         `/profile/${user?.displayName !== null ? user?.displayName : user?.uid}`
       );
-      //
     } catch (error) {
+      const errorCode = error.code;
+      let errorMessage;
+
+      switch (errorCode) {
+        case "auth/wrong-password":
+          errorMessage = "Incorrect password. Please try again.";
+          break;
+        case "auth/user-not-found":
+          errorMessage = "Email not found. Please check your email address.";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "Invalid email format. Please enter a valid email.";
+          break;
+        default:
+          errorMessage = "An error occurred. Please try again later.";
+      }
       console.error("Login error", error.message);
+      setWarning(errorMessage);
     }
   };
 
@@ -50,7 +75,7 @@ function Login({ getCartData }) {
           <h1 className="mb-8 text-2xl">Log In</h1>
           <form
             onSubmit={handleLogin}
-            className="flex flex-col gap-4 border-2 border-blue-400 rounded-lg px-4 py-4"
+            className="flex flex-col gap-4 border-2 border-blue-400 rounded-lg px-8 py-8"
           >
             <input
               type="text"
@@ -79,6 +104,8 @@ function Login({ getCartData }) {
               </button>
             </div>
           </form>
+
+          <p className="mt-8 text-red-600">{warning}</p>
         </div>
       )}
     </div>
