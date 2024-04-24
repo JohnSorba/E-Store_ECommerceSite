@@ -142,7 +142,7 @@ function PaymentForm({
           />
           <input
             type="tel"
-            placeholder="Phone (optional)"
+            placeholder="Phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="block w-full mb-4 py-2 px-2  border-2 rounded-lg"

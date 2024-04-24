@@ -4,7 +4,7 @@ function HomePage({}) {
   return (
     <div>
       <Header />
-      <section className="cart-section grid grid-cols-2 gap-8">
+      {/* <section className="cart-section grid grid-cols-2 gap-8">
         <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
           1
         </article>
@@ -17,7 +17,7 @@ function HomePage({}) {
         <article className=" border border-gray-500 rounded-2xl shadow-sm p-24 text-center">
           4
         </article>
-      </section>
+      </section> */}
     </div>
   );
 }

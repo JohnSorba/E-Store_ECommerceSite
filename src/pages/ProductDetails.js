@@ -47,7 +47,7 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       {isLoading ? (
         <Loader />
       ) : (
@@ -96,9 +96,9 @@ function ProductDetails({ setIsLoading, isLoading, addToCart }) {
               </div>
               <div className="flex justify-end items-center gap-4">
                 <button onClick={handleAddToCart}>Add to Cart</button>
-                <button className="bg-transparent  border-2 border-slate-500 rounded-lg text-black hover:text-slate-500">
+                {/* <button className="bg-transparent  border-2 border-slate-500 rounded-lg text-black hover:text-slate-500">
                   🧡
-                </button>
+                </button> */}
                 <Link
                   // to={`/product/${id}/checkout?quantity=${quantity}`}
                   to={`/product/${id}/checkout/${quantity}`}

@@ -1,4 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
+const goToProducts = () => {
+  navigate("/products");
+};
 
 function Header() {
   return (
@@ -14,6 +21,9 @@ function Header() {
         <p className="text-2xl text-center">
           Get all your latest products here!
         </p>
+        <button onClick={goToProducts} className="btn-goToProducts">
+          Go to Products
+        </button>
       </div>
     </div>
   );

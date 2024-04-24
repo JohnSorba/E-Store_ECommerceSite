@@ -73,8 +73,18 @@ a {
 }
 
 .hero {
-  height: 60vh;
+  height: 90vh;
   background: url(/public/ecommere_hero.png);
+}
+
+.hero-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-details button {
+  margin-top: 1rem;
+  align-self: center;
 }
 
 .hero-details h1 {
@@ -108,12 +118,18 @@ a {
   gap: 1rem;
 }
 
-button {
+button,
+.btn-goToProducts {
   padding: 0.5rem 1rem;
   color: var(--accent-color);
   font-weight: bold;
   border: 1px solid var(--main-color-2);
   border-radius: 5px;
+}
+
+.btn-goToProducts {
+  color: var(--main-color-2);
+  border: 1px solid var(--accent-color);
 }
 
 /* CART SECTION */

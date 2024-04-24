@@ -28,9 +28,9 @@ function Profile({ storeUserData }) {
       <header className="grid grid-cols-1 items-center h-1/5">
         <h1 className="text-5xl font-semibold">
           {currentUser?.displayName == null ? (
-            <p>Welcome</p>
+            <p>Welcome User</p>
           ) : (
-            <p>Welcome, {currentUser?.displayName}</p>
+            <p>Welcome {currentUser?.displayName}</p>
           )}
         </h1>
       </header>
@@ -43,12 +43,12 @@ function Profile({ storeUserData }) {
           <div className="py-2 px-2 border-b border-gray-300 w-full text-right">
             Address
           </div>
-          <div className="py-2 px-2 border-b border-gray-300 w-full text-right">
+          {/* <div className="py-2 px-2 border-b border-gray-300 w-full text-right">
             Nav 3
           </div>
           <div className="py-2 px-2 border-b border-gray-300 w-full text-right">
             Nav 4
-          </div>
+          </div> */}
         </article>
         <article className="col-span-6 border-l px-8">
           {

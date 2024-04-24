@@ -4,6 +4,7 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
+import { useState } from "react";
 
 function ProfileEdit({
   newEmail,
@@ -13,11 +14,13 @@ function ProfileEdit({
   setPassword,
   setUserProfile,
 }) {
+  const [editMode, setEditMode] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
   const auth = getAuth();
   const user = auth.currentUser;
 
   const handleInputChange = (e) => {
-    console.log("profile update");
+    // console.log("profile update");
 
     const { name, value } = e.target;
     setUserProfile((prevProfile) => ({
@@ -25,6 +28,85 @@ function ProfileEdit({
       [name]: value,
     }));
   };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    // Destructure user object (avoid modifying original state)
+    const { email, password, currentPassword } = { ...user };
+    const newEmail = email !== user.email ? email : null; // Update email if changed
+    const newPassword = password ? password : null; // Update password if changed
+
+    console.log(user);
+
+    if (!currentPassword) {
+      // Handle missing current password error
+      return;
+    }
+
+    try {
+      const credential = reauthenticateWithCredential(
+        getAuth(auth).currentUser,
+        signInWithEmailAndPassword(getAuth(auth), user.email, currentPassword)
+      );
+
+      // Update email if necessary
+      await credential.user.updateEmail(newEmail);
+      if (newPassword) {
+        // Update password if necessary
+        await updatePassword(getAuth(auth).currentUser, newPassword);
+      }
+
+      // Update user state with changes (clear new password)
+      setUser({ ...user, email: newEmail || email, password: "" });
+      setEditMode(false);
+
+      console.log(user);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      // Handle errors (e.g., invalid email format, incorrect current password)
+    }
+  };
+
+  return (
+    <div>
+      {" "}
+      {/* Edit Button */}
+      <button onClick={() => setEditMode(!editMode)}>
+        {editMode ? "Save Changes" : "Edit Profile"}
+      </button>
+      {/* Edit Form */}
+      {editMode && (
+        <form onSubmit={handleSave}>
+          <input type="text" defaultValue={user?.displayName} />
+          <input
+            type="email"
+            defaultValue={user?.email}
+            disabled={!editMode}
+          />{" "}
+          {/* Email */}
+          <input
+            type="password"
+            placeholder="New Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />{" "}
+          {/* New Password */}
+          <input
+            type="password"
+            placeholder="Current Password"
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />{" "}
+          {/* Current Password for Verification */}
+          <button type="submit">Save</button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+export default ProfileEdit;
+
+/*
 
   const handleUpdateProfile = () => {
     const updateNewProfile = async () => {
@@ -58,43 +140,36 @@ function ProfileEdit({
     updateNewPassword(newPassword);
   };
 
-  return (
-    <div>
-      {" "}
-      <div>
-        <h2 className="mb-4 text-lg font-semibold">Edit Profile</h2>
-        <div className="mb-4">
-          <label className="font-semibold mb-2">Username:</label>
-          <input
-            type="text"
-            name="displayName"
-            value={newUserProfile.displayName}
-            onChange={handleInputChange}
-            className="py-1 px-2 border border-gray-500 ml-4"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold mb-2">New Email:</label>
-          <input
-            type="email"
-            value={newEmail}
-            onChange={(e) => setEmail(e.target.value)}
-            className="py-1 px-2 border border-gray-500 ml-4"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold">New Password:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setPassword(e.target.value)}
-            className="py-1 px-2 border border-gray-500 ml-4"
-          />
-        </div>
-        <button onClick={handleUpdateProfile}>Update Profile</button>
-      </div>
-    </div>
-  );
-}
-
-export default ProfileEdit;
+<div>
+  <h2 className="mb-4 text-lg font-semibold">Edit Profile</h2>
+  <div className="mb-4">
+    <label className="font-semibold mb-2">Username:</label>
+    <input
+      type="text"
+      name="displayName"
+      value={newUserProfile.displayName}
+      onChange={handleInputChange}
+      className="py-1 px-2 border border-gray-500 ml-4"
+    />
+  </div>
+  <div className="mb-4">
+    <label className="font-semibold mb-2">New Email:</label>
+    <input
+      type="email"
+      value={newEmail}
+      onChange={(e) => setEmail(e.target.value)}
+      className="py-1 px-2 border border-gray-500 ml-4"
+    />
+  </div>
+  <div className="mb-4">
+    <label className="font-semibold">New Password:</label>
+    <input
+      type="password"
+      value={newPassword}
+      onChange={(e) => setPassword(e.target.value)}
+      className="py-1 px-2 border border-gray-500 ml-4"
+    />
+  </div>
+  <button onClick={handleUpdateProfile}>Update Profile</button>
+</div>;
+*/
