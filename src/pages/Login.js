@@ -66,7 +66,7 @@ function Login({ getCartData }) {
   return (
     <div className="text-center h-screen grid grid-cols-2 place-items-center">
       <div className="bg-slate-600 h-full w-full text-7xl text-white grid place-items-center">
-        Hi!
+        Hi MONA!
       </div>
       {currentUser ? (
         <p>You are already signed in as, {user?.email}</p>

@@ -57,7 +57,7 @@ function Cart({
     <div className="cart-section">
       <>
         <div className="cart">
-          <h1 className="text-5xl mb-2 font-bold">Welcome to the Cart!</h1>
+          <h1 className="text-5xl mb-2 font-bold">Welcome to Your Cart!</h1>
           {cartItems.length < 1 ? (
             <p className="text-xl ">Make sure you add items soon! 😉</p>
           ) : (

@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate();
-
-const goToProducts = () => {
-  navigate("/products");
-};
-
 function Header() {
+  const navigate = useNavigate();
+
+  const goToProducts = () => {
+    navigate("/products");
+  };
+
   return (
     <div className="hero grid place-items-center bg-blend-color">
       <div className="hero-details">
