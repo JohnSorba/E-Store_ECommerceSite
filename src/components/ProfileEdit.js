@@ -5,6 +5,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { useState } from "react";
+import "../pages/ProfileEdit.css";
 
 function ProfileEdit({
   newEmail,
@@ -13,8 +14,8 @@ function ProfileEdit({
   setEmail,
   setPassword,
   setUserProfile,
+  editMode,
 }) {
-  const [editMode, setEditMode] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const auth = getAuth();
   const user = auth.currentUser;
@@ -71,34 +72,32 @@ function ProfileEdit({
   return (
     <div>
       {" "}
-      {/* Edit Button */}
-      <button onClick={() => setEditMode(!editMode)}>
-        {editMode ? "Save Changes" : "Edit Profile"}
-      </button>
       {/* Edit Form */}
       {editMode && (
-        <form onSubmit={handleSave}>
-          <input type="text" defaultValue={user?.displayName} />
-          <input
-            type="email"
-            defaultValue={user?.email}
-            disabled={!editMode}
-          />{" "}
-          {/* Email */}
-          <input
-            type="password"
-            placeholder="New Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />{" "}
-          {/* New Password */}
-          <input
-            type="password"
-            placeholder="Current Password"
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />{" "}
-          {/* Current Password for Verification */}
-          <button type="submit">Save</button>
-        </form>
+        <div className="alert-container">
+          <form onSubmit={handleSave} className="alert">
+            <input type="text" defaultValue={user?.displayName} />
+            <input
+              type="email"
+              defaultValue={user?.email}
+              disabled={!editMode}
+            />{" "}
+            {/* Email */}
+            <input
+              type="password"
+              placeholder="Current Password"
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />{" "}
+            {/* New Password */}
+            <input
+              type="password"
+              placeholder="New Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />{" "}
+            {/* Current Password for Verification */}
+            <button type="submit">Save</button>
+          </form>
+        </div>
       )}
     </div>
   );
