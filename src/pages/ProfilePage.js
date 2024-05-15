@@ -9,8 +9,10 @@ function Profile({ storeUserData }) {
   const { user, setUser } = useUser();
   const [newUserProfile, setUserProfile] = useState({ displayName: "" });
   const [newEmail, setNewEmail] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const [message, setMessage] = useState("");
 
   console.log(currentUser);
   console.log(user);
@@ -24,11 +26,18 @@ function Profile({ storeUserData }) {
       displayName: currentUser.displayName,
     };
 
+    console.log(currentUser);
+
     storeUserData(userUid, userData);
   }
 
   const viewOrders = () => {
     navigate("/orders");
+  };
+
+  const closeEditMode = () => {
+    setEditMode(!editMode);
+    setMessage("");
   };
 
   return (
@@ -47,10 +56,7 @@ function Profile({ storeUserData }) {
         <button onClick={viewOrders} className="bg-blue-400 text-white">
           View Latest Orders
         </button>
-        <button
-          onClick={() => setEditMode(!editMode)}
-          className="bg-blue-400 text-white"
-        >
+        <button onClick={closeEditMode} className="bg-blue-400 text-white">
           {editMode ? "Cancel" : "Edit Profile"}
         </button>
       </section>
@@ -73,13 +79,19 @@ function Profile({ storeUserData }) {
         <article className="col-span-6 border-l px-8">
           {
             <ProfileEdit
+              // userData={userData}
               newEmail={newEmail}
               newPassword={newPassword}
+              currentPassword={currentPassword}
               newUserProfile={newUserProfile}
               setEmail={setNewEmail}
               setPassword={setNewPassword}
+              setCurrentPassword={setCurrentPassword}
               setUserProfile={setUserProfile}
               editMode={editMode}
+              setEditMode={setEditMode}
+              message={message}
+              setMessage={setMessage}
             />
           }
         </article>

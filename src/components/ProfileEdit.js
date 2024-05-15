@@ -4,6 +4,7 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
+
 import { useState } from "react";
 import "../pages/ProfileEdit.css";
 
@@ -13,54 +14,53 @@ function ProfileEdit({
   newUserProfile,
   setEmail,
   setPassword,
+  userData,
   setUserProfile,
   editMode,
+  setEditMode,
+  message,
+  setMessage,
 }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const auth = getAuth();
   const user = auth.currentUser;
+  const [displayName, setDisplayName] = useState(user.displayName);
 
-  const handleInputChange = (e) => {
-    // console.log("profile update");
+  console.log("current user: ", user);
 
-    const { name, value } = e.target;
-    setUserProfile((prevProfile) => ({
-      ...prevProfile,
-      [name]: value,
-    }));
-  };
+  // const handleInputChange = (e) => {
+  //   // console.log("profile update");
+
+  //   const { name, value } = e.target;
+  //   setUserProfile((prevProfile) => ({
+  //     ...prevProfile,
+  //     [name]: value,
+  //   }));
+  // };
 
   const handleSave = async (e) => {
     e.preventDefault();
 
-    // Destructure user object (avoid modifying original state)
-    const { email, password, currentPassword } = { ...user };
-    const newEmail = email !== user.email ? email : null; // Update email if changed
-    const newPassword = password ? password : null; // Update password if changed
-
-    console.log(user);
-
-    if (!currentPassword) {
-      // Handle missing current password error
-      return;
-    }
-
     try {
-      const credential = reauthenticateWithCredential(
-        getAuth(auth).currentUser,
-        signInWithEmailAndPassword(getAuth(auth), user.email, currentPassword)
+      // var user = firebase.auth().currentUser;
+      const curPass = currentPassword; // Get current password from form input
+      const newPass = newPassword; // Get new password from form input
+
+      const credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        curPass
       );
 
-      // Update email if necessary
-      await credential.user.updateEmail(newEmail);
-      if (newPassword) {
-        // Update password if necessary
-        await updatePassword(getAuth(auth).currentUser, newPassword);
-      }
+      await user.reauthenticateWithCredential(credential);
 
-      // Update user state with changes (clear new password)
-      setUser({ ...user, email: newEmail || email, password: "" });
-      setEditMode(false);
+      // Re-authentication successful, update username and password
+      await user.updateProfile({
+        displayName: displayName,
+      });
+
+      await user.updatePassword(newPass);
+
+      // Username and password updated successfully.
 
       console.log(user);
     } catch (error) {
@@ -75,28 +75,49 @@ function ProfileEdit({
       {/* Edit Form */}
       {editMode && (
         <div className="alert-container">
-          <form onSubmit={handleSave} className="alert">
-            <input type="text" defaultValue={user?.displayName} />
-            <input
-              type="email"
-              defaultValue={user?.email}
-              disabled={!editMode}
-            />{" "}
+          <form onSubmit={handleSave} className="alert form-style">
+            <div className="form-group">
+              <label className="form-label">User Name</label>
+              <input
+                type="text"
+                defaultValue={user?.displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="form-input"
+              />
+            </div>
             {/* Email */}
-            <input
-              type="password"
-              placeholder="Current Password"
-              onChange={(e) => setCurrentPassword(e.target.value)}
-            />{" "}
-            {/* New Password */}
-            <input
-              type="password"
-              placeholder="New Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />{" "}
+            <div className="form-group">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                defaultValue={user?.email}
+                disabled
+                className="form-input cursor-not-allowed"
+              />{" "}
+            </div>
             {/* Current Password for Verification */}
+            <div className="form-group">
+              <label className="form-label">Current Password</label>
+              <input
+                type="password"
+                placeholder="Current Password"
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="form-input"
+              />{" "}
+            </div>
+            {/* New Password */}
+            <div className="form-group">
+              <label className="form-label">New Password</label>
+              <input
+                type="password"
+                placeholder="New Password"
+                onChange={(e) => setPassword(e.target.value)}
+                className="form-input"
+              />{" "}
+            </div>
             <button type="submit">Save</button>
           </form>
+          {editMode && message}
         </div>
       )}
     </div>
